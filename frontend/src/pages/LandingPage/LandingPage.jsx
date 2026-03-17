@@ -320,9 +320,9 @@ const LandingPage = () => {
                 </div>
             </section>
             <section id="how-it-works" className="w-full bg-[#F9FAFF] py-[60px] px-[20px] md:px-[40px] lg:px-[80px]">
-                <div className="flex flex-col gap-4 justify-center items-center">
+                <div className="flex flex-col gap-2 justify-center items-center">
                     <h4 className="font-inter mt-[20px] font-semibold text-[28px] md:text-[32px] lg:text-[32px] text-[#1A1A1A] leading-[40px] md:leading-[50px] lg:leading-[74px] tracking-[0%]">How it works</h4>
-                    <h2 className="font-inter font-semibold text-[32px] md:text-[40px] lg:text-[48px] text-[#1A1A1A] leading-[48px] md:leading-[60px] lg:leading-[74px] tracking-[0%] text-center">From Purchase to First Tap In Minutes.</h2>
+                    <h2 className="font-inter font-semibold text-[32px] md:text-[40px] lg:text-[48px] text-[#1A1A1A] leading-[38px] md:leading-[60px] lg:leading-[74px] tracking-[0%] text-center">From Purchase to First Tap In Minutes.</h2>
                     <p className="font-inter w-full max-w-[718px] font-normal text-[16px] md:text-[18px] lg:text-[20px] text-[#525252] leading-[24px] md:leading-[28px] lg:leading-[30px] tracking-[0%] text-center">We have streamlined the process to get your executive card in your hands and your profile live without the hassle.</p>
                 </div>
                 <div className="flex flex-col md:flex-row items-center justify-between w-full max-w-[1204px] h-auto md:h-[397px] mt-[40px] md:mt-[68px] bg-[#F9FAFF] rounded-[16px] border border-[#D9D9D9] p-[10px] px-[10px] md:px-[20px]">
@@ -505,7 +505,7 @@ const LandingPage = () => {
                     <h2 className="font-inter font-semibold text-[32px] md:text-[36px] lg:text-[40px] leading-[48px] md:leading-[54px] lg:leading-[60px] tracking-[0px] text-black text-center align-middle">
                         Simple, Transparent Pricing
                     </h2>
-                    <p className="font-inter font-medium text-[16px] md:text-[18px] lg:text-[20px] leading-[40px] md:leading-[50px] lg:leading-[60px] tracking-[0px] text-[#0A0F1A] text-center align-middle">
+                    <p className="font-inter font-medium text-[16px] md:text-[18px] lg:text-[20px] leading-[25px] md:leading-[50px] lg:leading-[60px] tracking-[0px] text-[#0A0F1A] text-center align-middle">
                         Start with one profile, upgrade when you need more professional identities
                     </p>
                 </div>

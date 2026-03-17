@@ -12,8 +12,6 @@ const Navbar = () => {
                     Carteon
                 </span>
             </div>
-
-            
             <ul className="hidden sm:flex items-center justify-center flex-1 gap-10">
                 <li><a href="#features" className="font-outfit font-normal text-[18px] text-[#252C46]">Features</a></li>
                 <li><a href="#how-it-works" className="font-outfit font-normal text-[18px] text-[#252C46]">How It Works</a></li>
@@ -22,7 +20,7 @@ const Navbar = () => {
             </ul>
 
             <div className="hidden sm:flex items-center">
-                <a href="" className="w-[190px] h-[48px] bg-[#252C46] rounded-[40px] py-[15px] px-[24px] font-outfit font-semibold text-[18px] text-white">
+                <a href="" className="w-[190px] h-[48px] bg-[#252C46] rounded-[40px] py-[11px] px-[24px] font-outfit font-semibold text-[18px] text-white">
                     Get Your Carteon
                 </a>
             </div>
