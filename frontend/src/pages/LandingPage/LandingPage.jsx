@@ -1,5 +1,8 @@
 import { useState } from "react";
 import { Minus, Plus } from "lucide-react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay } from "swiper/modules";
+import "swiper/css";
 import hero1 from "../../assets/hero1.png";
 import hero2 from "../../assets/hero2.png";
 import arrow from "../../assets/arrow.png";
@@ -139,66 +142,136 @@ const LandingPage = () => {
                         Traditional business cards don't reflect the dynamic, multi-dimensional executive you are.
                     </p>
                 </div>
+                <div className="mt-[63px]">
+                    <div className="block md:hidden">
+                        <Swiper
+                            modules={[Autoplay]}
+                            spaceBetween={20}
+                            slidesPerView={1.1}
+                            autoplay={{
+                                delay: 0,
+                                disableOnInteraction: false,
+                            }}
+                            speed={5000}
+                            loop={true}
+                        >
 
-                <div className="flex flex-col md:flex-row gap-5 mt-[63px] justify-center items-center">
-                    <div className="w-full md:w-[407px] h-auto md:h-[199px] border border-[#E5E7EB] rounded-[12px] p-[20px] flex flex-col gap-3">
-                        <div>
-                            <img src={box1} alt="" />
+                            <SwiperSlide className="flex">
+                                <div className="w-full h-[225px] border border-[#E5E7EB] rounded-[12px] p-[20px] flex flex-col gap-2 bg-white">
+                                    <div>
+                                        <img src={box1} alt="" />
+                                    </div>
+
+                                    <h4 className="font-inter font-bold text-[20px] text-[#1A1A1A] leading-[28px]">
+                                        Paper cards are disposable
+                                    </h4>
+
+                                    <p className="font-inter font-normal text-[14px] text-[#525252] leading-[22px]">
+                                        88% of paper business cards are thrown away within a week. Stop wasting money on trash.
+                                    </p>
+                                </div>
+                            </SwiperSlide>
+
+                            <SwiperSlide className="flex">
+                                <div className="w-full h-[225px] border border-[#E5E7EB] rounded-[12px] p-[20px] flex flex-col gap-4 bg-white">
+                                    <div>
+                                        <img src={box2} alt="" />
+                                    </div>
+
+                                    <h4 className="font-inter font-bold text-[20px] text-[#1A1A1A] leading-[28px]">
+                                        Scattered Identity
+                                    </h4>
+
+                                    <p className="font-inter font-normal text-[14px] text-[#525252] leading-[22px]">
+                                        Your LinkedIn, portfolio, and contact info are all over the place. Consolidate your digital presence.
+                                    </p>
+                                </div>
+                            </SwiperSlide>
+
+                            <SwiperSlide className="flex">
+                                <div className="w-full h-[225px] border border-[#E5E7EB] rounded-[12px] p-[20px] flex flex-col gap-4 bg-white">
+                                    <div>
+                                        <img src={box3} alt="" />
+                                    </div>
+
+                                    <h4 className="font-inter font-bold text-[20px] text-[#1A1A1A] leading-[28px]">
+                                        Missed Connections
+                                    </h4>
+
+                                    <p className="font-inter font-normal text-[14px] text-[#525252] leading-[22px]">
+                                        Manual data entry kills momentum. Networking moments are short—make them count instantly.
+                                    </p>
+                                </div>
+                            </SwiperSlide>
+
+                        </Swiper>
+                    </div>
+                    <div className="hidden md:flex gap-5 justify-center items-stretch">
+                        <div className="w-[407px] h-[199px] border border-[#E5E7EB] rounded-[12px] p-[20px] flex flex-col gap-3 bg-white">
+                            <div>
+                                <img src={box1} alt="" />
+                            </div>
+
+                            <h4 className="font-inter font-bold text-[20px] text-[#1A1A1A] leading-[28px]">
+                                Paper cards are disposable
+                            </h4>
+
+                            <p className="font-inter font-normal text-[14px] text-[#525252] leading-[22px]">
+                                88% of paper business cards are thrown away within a week. Stop wasting money on trash.
+                            </p>
                         </div>
 
-                        <h4 className="font-inter font-bold text-[20px] text-[#1A1A1A] leading-[28px]">
-                            Paper cards are disposable
-                        </h4>
+                        <div className="w-[407px] h-[199px] border border-[#E5E7EB] rounded-[12px] p-[20px] flex flex-col gap-3 bg-white">
+                            <div>
+                                <img src={box2} alt="" />
+                            </div>
 
-                        <p className="font-inter font-normal text-[14px] text-[#525252] leading-[22px]">
-                            88% of paper business cards are thrown away within a week. Stop wasting money on trash.
-                        </p>
-                    </div>
-                    <div className="w-full md:w-[407px] h-auto md:h-[199px] border border-[#E5E7EB] rounded-[12px] p-[20px] flex flex-col gap-3">
-                        <div>
-                            <img src={box2} alt="" />
+                            <h4 className="font-inter font-bold text-[20px] text-[#1A1A1A] leading-[28px]">
+                                Scattered Identity
+                            </h4>
+
+                            <p className="font-inter font-normal text-[14px] text-[#525252] leading-[22px]">
+                                Your LinkedIn, portfolio, and contact info are all over the place. Consolidate your digital presence.
+                            </p>
                         </div>
 
-                        <h4 className="font-inter font-bold text-[20px] text-[#1A1A1A] leading-[28px]">
-                            Scattered Identity
-                        </h4>
+                        <div className="w-[407px] h-[199px] border border-[#E5E7EB] rounded-[12px] p-[20px] flex flex-col gap-4 bg-white">
+                            <div>
+                                <img src={box3} alt="" />
+                            </div>
 
-                        <p className="font-inter font-normal text-[14px] text-[#525252] leading-[22px]">
-                            Your LinkedIn, portfolio, and contact info are all over the place. Consolidate your digital presence.
-                        </p>
-                    </div>
-                    <div className="w-full md:w-[407px] h-auto md:h-[199px] border border-[#E5E7EB] rounded-[12px] p-[20px] flex flex-col gap-4">
-                        <div>
-                            <img src={box3} alt="" />
+                            <h4 className="font-inter font-bold text-[20px] text-[#1A1A1A] leading-[28px]">
+                                Missed Connections
+                            </h4>
+
+                            <p className="font-inter font-normal text-[14px] text-[#525252] leading-[22px]">
+                                Manual data entry kills momentum. Networking moments are short—make them count instantly.
+                            </p>
                         </div>
 
-                        <h4 className="font-inter font-bold text-[20px] text-[#1A1A1A] leading-[28px]">
-                            Missed Connections
-                        </h4>
-
-                        <p className="font-inter font-normal text-[14px] text-[#525252] leading-[22px]">
-                            Manual data entry kills momentum. Networking moments are short—make them count instantly.
-                        </p>
                     </div>
+
                 </div>
                 <div className="w-full lg:w-[1201px] mt-[60px] h-auto lg:h-[307px] rounded-[12px] p-[20px] bg-[#EAEEFD] flex flex-col lg:flex-row gap-8 mx-auto">
                     <div className="flex flex-col gap-4 mt-[20px]">
                         <h4 className="w-full lg:w-[498px] font-inter font-bold text-[26px] md:text-[30px] lg:text-[36px] text-[#1A1A1A] leading-[36px] lg:leading-[40px]">
                             Upgrade from static business cards to a dynamic, executive identity.
                         </h4>
+
                         <p className="w-full lg:w-[479px] font-inter font-normal text-[16px] md:text-[17px] lg:text-[18px] text-[#525252] leading-[26px] lg:leading-[28px]">
                             Carteon gives you the power to switch between professional personas instantly, all from one premium NFC card.
                         </p>
                     </div>
+
                     <div className="mt-[26px] ml-0 lg:ml-[20px] flex flex-col justify-center">
                         <img src={profile} alt="" />
                         <img src={profile1} alt="" />
                     </div>
 
                 </div>
+
             </section>
             <section className="min-h-[700px] w-full bg-[#F5F5F5] py-[60px] px-[20px] md:px-[40px] lg:px-[80px] overflow-x-hidden">
-
                 <div className="flex flex-col gap-2 justify-center items-center">
                     <h2 className="font-inter font-semibold text-[28px] md:text-[34px] lg:text-[40px] text-[#0A0F1A] leading-[34px] md:leading-[38px] lg:leading-[40px] text-center">
                         Professional Identity Infrastructure.
@@ -208,7 +281,70 @@ const LandingPage = () => {
                         Carteon replaces the stack of paper cards with a dynamic, digital system that evolves with your career.
                     </p>
                 </div>
-                <div className="flex flex-col md:flex-row gap-5 mt-[70px] justify-center items-center">
+                <div className="block md:hidden mt-[70px]">
+                    <Swiper
+                        modules={[Autoplay]}
+                        spaceBetween={20}
+                        slidesPerView={1.1}
+                        autoplay={{
+                            delay: 0,
+                            disableOnInteraction: false,
+                        }}
+                        speed={5000}
+                        loop={true}
+                    >
+
+                        <SwiperSlide className="flex">
+                            <div className="w-full h-auto bg-white rounded-[12px] p-[20px] flex flex-col gap-4">
+                                <div>
+                                    <img src={box4} alt="" />
+                                </div>
+
+                                <h4 className="font-inter font-bold text-[20px] text-[#1A1A1A] leading-[28px]">
+                                    Instant Profile Access
+                                </h4>
+
+                                <p className="font-inter font-normal text-[16px] text-[#525252] leading-[22px]">
+                                    One tap shares your complete professional identity. No delays. No friction.
+                                </p>
+                            </div>
+                        </SwiperSlide>
+
+                        <SwiperSlide className="flex">
+                            <div className="w-full h-auto bg-white rounded-[12px] p-[20px] flex flex-col gap-4">
+                                <div>
+                                    <img src={box5} alt="" />
+                                </div>
+
+                                <h4 className="font-inter font-bold text-[20px] text-[#1A1A1A] leading-[28px]">
+                                    No App Required
+                                </h4>
+
+                                <p className="font-inter font-normal text-[16px] text-[#525252] leading-[22px]">
+                                    Recipients don't need an app to view your profile. Works natively on iOS and Android.
+                                </p>
+                            </div>
+                        </SwiperSlide>
+
+                        <SwiperSlide className="flex">
+                            <div className="w-full h-auto bg-white rounded-[12px] p-[20px] flex flex-col gap-4">
+                                <div>
+                                    <img src={box6} alt="" />
+                                </div>
+
+                                <h4 className="font-inter font-bold text-[20px] text-[#1A1A1A] leading-[28px]">
+                                    Live Editable Identity
+                                </h4>
+
+                                <p className="font-inter font-normal text-[16px] text-[#525252] leading-[22px]">
+                                    Changed jobs? New phone number? Update your profile instantly, anytime.
+                                </p>
+                            </div>
+                        </SwiperSlide>
+
+                    </Swiper>
+                </div>
+                <div className="hidden md:flex gap-5 mt-[70px] justify-center items-center">
 
                     <div className="w-full md:w-[416px] h-auto md:h-[208px] bg-white rounded-[12px] p-[20px] flex flex-col gap-4">
                         <div>
@@ -321,65 +457,134 @@ const LandingPage = () => {
             </section>
             <section id="how-it-works" className="w-full bg-[#F9FAFF] py-[60px] px-[20px] md:px-[40px] lg:px-[80px]">
                 <div className="flex flex-col gap-2 justify-center items-center">
-                    <h4 className="font-inter mt-[20px] font-semibold text-[28px] md:text-[32px] lg:text-[32px] text-[#1A1A1A] leading-[40px] md:leading-[50px] lg:leading-[74px] tracking-[0%]">How it works</h4>
-                    <h2 className="font-inter font-semibold text-[32px] md:text-[40px] lg:text-[48px] text-[#1A1A1A] leading-[38px] md:leading-[60px] lg:leading-[74px] tracking-[0%] text-center">From Purchase to First Tap In Minutes.</h2>
-                    <p className="font-inter w-full max-w-[718px] font-normal text-[16px] md:text-[18px] lg:text-[20px] text-[#525252] leading-[24px] md:leading-[28px] lg:leading-[30px] tracking-[0%] text-center">We have streamlined the process to get your executive card in your hands and your profile live without the hassle.</p>
+                    <h4 className="font-inter mt-[20px] font-semibold text-[28px] md:text-[32px] lg:text-[32px] text-[#1A1A1A] leading-[40px] md:leading-[50px] lg:leading-[74px] tracking-[0%]">
+                        How it works
+                    </h4>
+                    <h2 className="font-inter font-semibold text-[32px] md:text-[40px] lg:text-[48px] text-[#1A1A1A] leading-[38px] md:leading-[60px] lg:leading-[74px] tracking-[0%] text-center">
+                        From Purchase to First Tap In Minutes.
+                    </h2>
+                    <p className="font-inter w-full max-w-[718px] font-normal text-[16px] md:text-[18px] lg:text-[20px] text-[#525252] leading-[24px] md:leading-[28px] lg:leading-[30px] tracking-[0%] text-center">
+                        We have streamlined the process to get your executive card in your hands and your profile live without the hassle.
+                    </p>
                 </div>
-                <div className="flex flex-col md:flex-row items-center justify-between w-full max-w-[1204px] h-auto md:h-[397px] mt-[40px] md:mt-[68px] bg-[#F9FAFF] rounded-[16px] border border-[#D9D9D9] p-[10px] px-[10px] md:px-[20px]">
-                    <div className="flex flex-col gap-4 md:gap-7 w-full md:w-auto">
-                        <h4 className="font-outfit font-semibold text-[32px] md:text-[40px] lg:text-[48px] text-[#252C46] leading-[100%] tracking-[0%]">01</h4>
-                        <div className="flex flex-col gap-2">
-                            <h6 className="font-inter font-semibold text-[16px] md:text-[18px] text-[#1A1A1A] leading-[100%] tracking-[0%]">Order Your Card</h6>
-                            <p className="font-inter font-normal text-[14px] md:text-[16px] text-[#525252] leading-[18px] md:leading-[20px] tracking-[0%] w-full md:w-[463px]">Select your preferred Carteon variant and complete secure checkout. Each card is precision-crafted.</p>
-                        </div>
-                    </div>
-                    <div className="w-full md:w-[383px] mt-4 md:mt-0 flex justify-center md:justify-end">
-                        <img src={step1} alt="" className="w-full max-w-[250px] md:max-w-[300px] lg:max-w-[400px]" />
-                    </div>
+                <div className="block md:hidden mt-[40px]">
+                    <Swiper
+                        modules={[Autoplay]}
+                        spaceBetween={20}
+                        slidesPerView={1.1}
+                        autoplay={{
+                            delay: 0,
+                            disableOnInteraction: false,
+                        }}
+                        speed={5000}
+                        loop={true}
+                    >
+                        {[step1, step2, step3, step4].map((stepImg, idx) => (
+                            <SwiperSlide key={idx} className="flex justify-center">
+                                <div className="w-full h-[385px] max-w-[350px] bg-[#F9FAFF] rounded-[16px] border border-[#D9D9D9] p-[10px] flex flex-col gap-4">
+                                    <h4 className="font-outfit font-semibold text-[32px] md:text-[40px] lg:text-[48px] text-[#252C46] leading-[100%] tracking-[0%]">
+                                        {`0${idx + 1}`}
+                                    </h4>
+                                    <div className="flex flex-col gap-2">
+                                        <h6 className="font-inter font-semibold text-[16px] md:text-[18px] text-[#1A1A1A] leading-[100%] tracking-[0%]">
+                                            {idx === 0
+                                                ? "Order Your Card"
+                                                : idx === 1
+                                                    ? "Secure Checkout"
+                                                    : idx === 2
+                                                        ? "Set Up Your Profile"
+                                                        : "Tap & Share Instantly"}
+                                        </h6>
+                                        <p className="font-inter font-normal text-[14px] md:text-[16px] text-[#525252] leading-[18px] md:leading-[20px] tracking-[0%]">
+                                            {idx === 0
+                                                ? "Select your preferred Carteon variant and complete secure checkout. Each card is precision-crafted."
+                                                : idx === 1
+                                                    ? "Complete your purchase with our encrypted, payment options including Paystack and Flutterwave."
+                                                    : idx === 2
+                                                        ? "While your card ships, build your professional digital profile. Add your bio, photo, and links in minutes."
+                                                        : "Simply tap your card on any NFC enabled phone to share your professional identity. No app required for the receiver."}
+                                        </p>
+                                    </div>
+                                    <div className="w-full md:w-[283px] h-[200px] md:h-[373px] bg-[#EAEEFD] p-[10px] rounded-[8px] relative flex justify-center items-center">
+                                        <img
+                                            src={stepImg}
+                                            alt={`Step ${idx + 1}`}
+                                            className={`w-[180px] ${idx === 2 ? "h-[190px]  pt-[8px] sm:h-[160px]" : ""}`}
+                                        // Step 3 image reduced height on mobile
+                                        />
+                                    </div>
+                                </div>
+                            </SwiperSlide>
+                        ))}
+                    </Swiper>
                 </div>
-                <div className="flex flex-col-reverse md:flex-row items-center justify-between w-full max-w-[1204px] h-auto md:h-[397px] mt-[20px] md:mt-[28px] bg-[#F9FAFF] rounded-[16px] border border-[#D9D9D9] p-[10px] px-[10px] md:px-[20px]">
-                    <div className="w-full md:w-auto mt-4 md:mt-0">
-                        <div className="w-full md:w-[383px] h-auto md:h-[373px] bg-[#EAEEFD] p-[10px] md:p-[20px] rounded-[8px] flex justify-center items-center">
-                            <img src={step2} alt="" className="w-full h-auto max-w-[250px] md:max-w-full" />
+                <div className="hidden md:flex flex-col gap-[20px] mt-[40px]">
+                    <div className="flex flex-col md:flex-row items-center justify-between w-full max-w-[1204px] h-auto md:h-[397px] bg-[#F9FAFF] rounded-[16px] border border-[#D9D9D9] p-[10px] px-[10px] md:px-[20px]">
+                        <div className="flex flex-col gap-4 md:gap-7 w-full md:w-auto">
+                            <h4 className="font-outfit font-semibold text-[32px] md:text-[40px] lg:text-[48px] text-[#252C46] leading-[100%] tracking-[0%]">
+                                01
+                            </h4>
+                            <div className="flex flex-col gap-2">
+                                <h6 className="font-inter font-semibold text-[16px] md:text-[18px] text-[#1A1A1A] leading-[100%] tracking-[0%]">
+                                    Order Your Card
+                                </h6>
+                                <p className="font-inter font-normal text-[14px] md:text-[16px] text-[#525252] leading-[18px] md:leading-[20px] tracking-[0%] w-full md:w-[463px]">
+                                    Select your preferred Carteon variant and complete secure checkout. Each card is precision-crafted.
+                                </p>
+                            </div>
+                        </div>
+                        <div className="w-full md:w-[383px] mt-4 md:mt-0 flex justify-center md:justify-end">
+                            <img src={step1} alt="" className="w-full max-w-[250px] md:max-w-[300px] lg:max-w-[400px]" />
                         </div>
                     </div>
-                    <div className="flex flex-col gap-4 md:gap-7 w-full md:w-auto">
-                        <h4 className="font-outfit font-semibold text-[32px] md:text-[40px] lg:text-[48px] text-[#252C46] leading-[100%] tracking-[0%]">02</h4>
-                        <div className="flex flex-col gap-2">
-                            <h6 className="font-inter font-semibold text-[16px] md:text-[18px] text-[#1A1A1A] leading-[100%] tracking-[0%]">Secure Checkout</h6>
-                            <p className="font-inter font-normal text-[14px] md:text-[16px] text-[#525252] leading-[18px] md:leading-[20px] tracking-[0%] w-full md:w-[459px]">Complete your purchase with our encrypted, payment options including Paystack and Flutterwave.</p>
+                    <div className="flex flex-col-reverse md:flex-row items-center justify-between w-full max-w-[1204px] h-auto md:h-[397px] bg-[#F9FAFF] rounded-[16px] border border-[#D9D9D9] p-[10px] px-[10px] md:px-[20px]">
+                        <div className="w-full md:w-auto mt-4 md:mt-0">
+                            <div className="w-full md:w-[383px] h-auto md:h-[373px] bg-[#EAEEFD] p-[10px] md:p-[20px] rounded-[8px] flex justify-center items-center">
+                                <img src={step2} alt="" className="w-full h-auto max-w-[250px] md:max-w-full" />
+                            </div>
+                        </div>
+                        <div className="flex flex-col gap-4 md:gap-7 w-full md:w-auto">
+                            <h4 className="font-outfit font-semibold text-[32px] md:text-[40px] lg:text-[48px] text-[#252C46] leading-[100%] tracking-[0%]">02</h4>
+                            <div className="flex flex-col gap-2">
+                                <h6 className="font-inter font-semibold text-[16px] md:text-[18px] text-[#1A1A1A] leading-[100%] tracking-[0%]">Secure Checkout</h6>
+                                <p className="font-inter font-normal text-[14px] md:text-[16px] text-[#525252] leading-[18px] md:leading-[20px] tracking-[0%] w-full md:w-[459px]">
+                                    Complete your purchase with our encrypted, payment options including Paystack and Flutterwave.
+                                </p>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div className="flex flex-col md:flex-row items-center justify-between w-full max-w-[1204px] h-auto md:h-[397px] mt-[20px] md:mt-[28px] bg-[#F9FAFF] rounded-[16px] border border-[#D9D9D9] p-[10px] px-[10px] md:px-[20px]">
-                    <div className="flex flex-col gap-4 md:gap-7 w-full md:w-auto">
-                        <h4 className="font-outfit font-semibold text-[32px] md:text-[40px] lg:text-[48px] text-[#252C46] leading-[100%] tracking-[0%]">03</h4>
-                        <div className="flex flex-col gap-2">
-                            <h6 className="font-inter font-semibold text-[16px] md:text-[18px] text-[#1A1A1A] leading-[100%] tracking-[0%]">Set Up Your Profile</h6>
-                            <p className="font-inter font-normal text-[14px] md:text-[16px] text-[#525252] leading-[18px] md:leading-[20px] tracking-[0%] w-full md:w-[459px]">While your card ships, build your professional digital profile. Add your bio, photo, and links in minutes.</p>
+                    <div className="flex flex-col md:flex-row items-center justify-between w-full max-w-[1204px] h-auto md:h-[397px] bg-[#F9FAFF] rounded-[16px] border border-[#D9D9D9] p-[10px] px-[10px] md:px-[20px]">
+                        <div className="flex flex-col gap-4 md:gap-7 w-full md:w-auto">
+                            <h4 className="font-outfit font-semibold text-[32px] md:text-[40px] lg:text-[48px] text-[#252C46] leading-[100%] tracking-[0%]">03</h4>
+                            <div className="flex flex-col gap-2">
+                                <h6 className="font-inter font-semibold text-[16px] md:text-[18px] text-[#1A1A1A] leading-[100%] tracking-[0%]">Set Up Your Profile</h6>
+                                <p className="font-inter font-normal text-[14px] md:text-[16px] text-[#525252] leading-[18px] md:leading-[20px] tracking-[0%] w-full md:w-[459px]">
+                                    While your card ships, build your professional digital profile. Add your bio, photo, and links in minutes.
+                                </p>
+                            </div>
+                        </div>
+                        <div className="w-full md:w-auto mt-4 md:mt-0">
+                            <div className="w-full md:w-[383px] h-[200px] md:h-[373px] bg-[#EAEEFD] p-[10px] rounded-[8px] relative flex justify-center items-center">
+                                <img
+                                    src={step3}
+                                    alt=""
+                                    className="absolute top-[24px] left-[34px] md:top-13 md:left-13 w-full max-w-[200px] sm:max-w-[220px] md:max-w-[300px] h-[175px] sm:h-[150px] md:h-[320px] object-contain"
+                                />
+                            </div>
                         </div>
                     </div>
-                    <div className="w-full md:w-auto mt-4 md:mt-0">
-                        <div className="w-full md:w-[383px] h-[200px] md:h-[373px] bg-[#EAEEFD] p-[10px] rounded-[8px] relative flex justify-center items-center">
-                            <img
-                                src={step3}
-                                alt=""
-                                className="absolute top-[24px] left-[34px] md:top-13 md:left-13 
-                       w-full max-w-[200px] sm:max-w-[220px] md:max-w-[300px] 
-                       h-[175px] sm:h-[150px] md:h-[320px] object-contain"
-                            />
+                    <div className="flex flex-col-reverse md:flex-row items-center justify-between w-full max-w-[1204px] h-auto md:h-[397px] bg-[#F9FAFF] rounded-[16px] border border-[#D9D9D9] p-[10px] px-[10px] md:px-[20px]">
+                        <div className="w-full md:w-auto mt-4 md:mt-0 flex justify-center md:justify-start">
+                            <img src={step4} alt="" className="w-full max-w-[250px] md:max-w-[300px] lg:max-w-full h-auto" />
                         </div>
-                    </div>
-                </div>
-                <div className="flex flex-col-reverse md:flex-row items-center justify-between w-full max-w-[1204px] h-auto md:h-[397px] mt-[20px] md:mt-[28px] bg-[#F9FAFF] rounded-[16px] border border-[#D9D9D9] p-[10px] px-[10px] md:px-[20px]">
-                    <div className="w-full md:w-auto mt-4 md:mt-0 flex justify-center md:justify-start">
-                        <img src={step4} alt="" className="w-full max-w-[250px] md:max-w-[300px] lg:max-w-full h-auto" />
-                    </div>
-                    <div className="flex flex-col gap-4 md:gap-7 w-full md:w-auto mt-4 md:mt-0">
-                        <h4 className="font-outfit font-semibold text-[32px] md:text-[40px] lg:text-[48px] text-[#252C46] leading-[100%] tracking-[0%]">04</h4>
-                        <div className="flex flex-col gap-2">
-                            <h6 className="font-inter font-semibold text-[16px] md:text-[18px] text-[#1A1A1A] leading-[100%] tracking-[0%]">Tap & Share Instantly</h6>
-                            <p className="font-inter font-normal text-[14px] md:text-[16px] text-[#525252] leading-[18px] md:leading-[20px] tracking-[0%] w-full md:w-[459px]">Simply tap your card on any NFC enabled phone to share your professional identity. No app required for the receiver.</p>
+                        <div className="flex flex-col gap-4 md:gap-7 w-full md:w-auto mt-4 md:mt-0">
+                            <h4 className="font-outfit font-semibold text-[32px] md:text-[40px] lg:text-[48px] text-[#252C46] leading-[100%] tracking-[0%]">04</h4>
+                            <div className="flex flex-col gap-2">
+                                <h6 className="font-inter font-semibold text-[16px] md:text-[18px] text-[#1A1A1A] leading-[100%] tracking-[0%]">Tap & Share Instantly</h6>
+                                <p className="font-inter font-normal text-[14px] md:text-[16px] text-[#525252] leading-[18px] md:leading-[20px] tracking-[0%] w-full md:w-[459px]">
+                                    Simply tap your card on any NFC enabled phone to share your professional identity. No app required for the receiver.
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
