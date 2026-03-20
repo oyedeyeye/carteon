@@ -124,7 +124,7 @@ const LandingPage = () => {
 
                 <div className="mt-[60px] lg:mt-[85px] flex justify-center relative">
 
-                    <img src={hero1} alt="" className="w-full max-w-[350px] " />
+                    <img src={hero1} alt="" className="w-full max-w-[350px] h-[550px] sm:h-auto"/>
 
                     <div className="hidden lg:block absolute top-[40%] left-[20%] lg:top-49 lg:left-[-112%]">
                         <img src={hero2} alt="" className="w-[120px] lg:w-auto" />
