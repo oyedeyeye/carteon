@@ -20,3 +20,68 @@ export const createLeadSchema = z.object({
         recipientCompany: z.string().optional(),
     }),
 });
+
+export const createOrderSchema = z.object({
+    body: z.object({
+        customerData: z.object({
+            name: z.string().min(1, 'Name is required'),
+            email: z.string().email('Valid email is required'),
+            phone: z.string().min(1, 'Phone is required'),
+            address: z.string().min(1, 'Address is required'),
+        }),
+        items: z.array(z.object({
+            cardType: z.enum(['SMART_ONLY', 'PVC_QR_ONLY', 'COMPLETE_PACKAGE']),
+            quantity: z.number().min(1, 'At least 1 item is required'),
+        })).min(1, 'Order must contain at least one item'),
+        totalAmount: z.number().min(0, 'Total amount must be greater or equal to zero'),
+    })
+});
+
+export const adminCreateUserSchema = z.object({
+    body: z.object({
+        email: z.string().email('Valid email is required'),
+        fullName: z.string().min(1, 'Full name is required'),
+        phone: z.string().optional(),
+        deliveryAddress: z.string().optional(),
+    }),
+});
+
+export const adminCreateCardSchema = z.object({
+    body: z.object({
+        cardId: z.string().min(1, 'Card ID is required'),
+        userId: z.string().min(1, 'User ID is required'),
+        cardType: z.enum(['SMART_ONLY', 'PVC_QR_ONLY', 'COMPLETE_PACKAGE']),
+        status: z.enum(['PENDING_ACTIVATION', 'ACTIVE', 'INACTIVE']).optional(),
+        slug: z.string().min(1, 'Slug is required'),
+        subscription: z.object({
+            status: z.string().optional(),
+            expiryDate: z.string().pipe(z.coerce.date()).optional(),
+            planType: z.enum(['FREE', 'MULTI_PROFILE', 'CUSTOM_THEME', 'BUNDLE']).optional(),
+        }).optional()
+    }),
+});
+
+export const adminCreateProfileSchema = z.object({
+    body: z.object({
+        userId: z.string().min(1, 'User ID is required'),
+        cardId: z.string().min(1, 'Card ID is required'),
+        profileName: z.string().min(1, 'Profile Name is required'),
+        isDefault: z.boolean().optional(),
+        theme: z.any().optional(),
+        identity: z.object({
+            fullName: z.string().min(1, 'Identity full name is required'),
+            title: z.string().optional(),
+            company: z.string().optional(),
+            bio: z.string().optional(),
+            photoUrl: z.string().optional(),
+            logoUrl: z.string().optional(),
+        }),
+        contactInfo: z.object({
+            phone: z.string().optional(),
+            email: z.string().email().optional(),
+            whatsapp: z.string().optional(),
+        }).optional(),
+        links: z.array(z.any()).optional(),
+        isActive: z.boolean().optional(),
+    })
+});
