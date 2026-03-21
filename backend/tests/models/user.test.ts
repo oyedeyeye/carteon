@@ -22,11 +22,6 @@ describe('User Model Validation', () => {
             fullName: 'John Doe',
             phone: '+2348012345678',
             deliveryAddress: '123 Lekki, Lagos',
-            subscription: {
-                status: 'active',
-                expiryDate: new Date(Date.now() + 100000),
-                planType: 'premium',
-            },
         };
         const user = new User(validUserData);
         const savedUser = await user.save();

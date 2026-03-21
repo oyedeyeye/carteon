@@ -5,11 +5,6 @@ export interface IUser extends Document {
     fullName: string;
     phone: string;
     deliveryAddress: string;
-    subscription: {
-        status: string;
-        expiryDate: Date;
-        planType: string;
-    };
     createdAt: Date;
     updatedAt: Date;
 }
@@ -37,11 +32,6 @@ const userSchema = new Schema<IUser>(
         deliveryAddress: {
             type: String,
             trim: true,
-        },
-        subscription: {
-            status: { type: String, default: 'inactive' },
-            expiryDate: { type: Date },
-            planType: { type: String, default: 'free' },
         },
     },
     { timestamps: true },

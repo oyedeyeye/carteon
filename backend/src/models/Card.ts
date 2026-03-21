@@ -6,6 +6,11 @@ export interface ICard extends Document {
     cardType: 'SMART_ONLY' | 'PVC_QR_ONLY' | 'COMPLETE_PACKAGE';
     status: 'PENDING_ACTIVATION' | 'ACTIVE' | 'INACTIVE';
     slug: string;
+    subscription?: {
+        status: string;
+        expiryDate?: Date;
+        planType: 'FREE' | 'MULTI_PROFILE' | 'CUSTOM_THEME' | 'BUNDLE';
+    };
     createdAt: Date;
     updatedAt: Date;
 }
@@ -44,6 +49,15 @@ const cardSchema = new Schema<ICard>(
             required: [true, 'Slug is required'],
             lowercase: true,
             trim: true,
+        },
+        subscription: {
+            status: { type: String, default: 'inactive' },
+            expiryDate: { type: Date },
+            planType: {
+                type: String,
+                enum: ['FREE', 'MULTI_PROFILE', 'CUSTOM_THEME', 'BUNDLE'],
+                default: 'FREE'
+            },
         },
     },
     { timestamps: true },

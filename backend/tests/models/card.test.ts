@@ -23,6 +23,11 @@ describe('Card Model Validation', () => {
             cardType: 'SMART_ONLY',
             status: 'ACTIVE',
             slug: 'my-premium-card',
+            subscription: {
+                status: 'active',
+                planType: 'MULTI_PROFILE',
+                expiryDate: new Date(Date.now() + 100000),
+            },
         };
         const card = new Card(validCardData);
         const savedCard = await card.save();
