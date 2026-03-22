@@ -42,6 +42,16 @@ Welcome to the backend component of the **Carteon Smart Card** platform. This RE
     ```
     *(Alternatively, build and start: `npm run build && npm start`)*
 
+### Database Setup & Seeding
+Carteon uses MongoDB for data persistence. By default, the application will attempt to connect to the URI defined in your `.env` file (e.g. `mongodb://localhost:27017/carteon_dev`).
+
+To quickly populate your local database with mock elements for testing (such as generated executives, customized themes, connected physical cards, existing lead captures, and mock orders), run the built-in seed script:
+
+```bash
+npm run seed
+```
+*Note: Running `npm run seed` will completely wipe your local database collections before inserting the fresh mock data.*
+
 ---
 
 ## 🏗 Schema Overviews
