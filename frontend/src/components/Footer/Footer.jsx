@@ -20,7 +20,7 @@ const Footer = () => {
                     <div className="flex flex-wrap gap-4 sm:gap-8 mt-2">
                         <a href=""><img src={twitter} alt="Twitter" /></a>
                         <a href=""><img src={linkedin} alt="LinkedIn" /></a>
-                        <a href=""><img src={instagram} alt="Instagram" /></a>
+                        <a href="https://www.instagram.com/carteon_cards?igsh=cmczaGQ2anUxaDF6" target="_blank" rel="noopener noreferrer"><img src={instagram} alt="Instagram" /></a>
                         <a href=""><img src={mail} alt="Mail" /></a>
                     </div>
                 </div>

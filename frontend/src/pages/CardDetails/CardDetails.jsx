@@ -48,6 +48,7 @@ const CardDetails = () => {
 
     const handleBuyNow = () => {
         navigate("/checkout", { state: { variant: selectedVariant, quantity } });
+        window.scrollTo({ top: 0, behavior: "auto" });
     };
 
     const handleBackToHome = () => {
