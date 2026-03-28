@@ -42,4 +42,22 @@ describe('EmailService', () => {
         expect(callArgs.html).toContain('+123456789');
         expect(callArgs.html).toContain('Wonderland Inc.');
     });
+
+    it('should strictly encode HTML tokens to their entities before email compilation to prevent HTML injection', async () => {
+        const maliciousPayload = {
+            recipientName: '<script>alert("XSS")</script>Client',
+            recipientEmail: 'client@carteon.com',
+            recipientPhone: '123',
+            recipientCompany: '<img src=x onerror=alert(1)>'
+        };
+
+        await emailService.sendLeadNotification('admin@carteon.com', maliciousPayload);
+        const generatedHtml = mockSendMail.mock.calls[0][0].html;
+        
+        // Assert malicious entities are completely sanitized
+        expect(generatedHtml).not.toContain('<script>');
+        expect(generatedHtml).toContain('&lt;script&gt;');
+        expect(generatedHtml).not.toContain('<img');
+        expect(generatedHtml).toContain('&lt;img');
+    });
 });

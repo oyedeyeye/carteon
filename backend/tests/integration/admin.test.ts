@@ -121,5 +121,30 @@ describe('Admin Internal API Endpoints', () => {
             expect(profile).not.toBeNull();
             expect(profile?.identity.fullName).toBe('John CEO');
         });
+
+        it('should fail Zod parsing if undocumented keys are injected into theme bypassing limits', async () => {
+            const user = await User.create({ email: 'owner2@example.com', fullName: 'Card Owner', phone: '123' });
+            const card = await Card.create({ cardId: 'NFC-778', userId: user._id, cardType: 'SMART_ONLY', status: 'ACTIVE', slug: 'john-doe2' });
+
+            const injectedPayload = {
+                userId: user._id.toString(),
+                cardId: card._id.toString(),
+                profileName: 'Admin Control Profile',
+                identity: { fullName: 'Test' },
+                theme: { 
+                    backgroundColor: '#fff', 
+                    hackerProperty: { unconstrained: true } // Exploitative element
+                }
+            };
+
+            const res = await request(app)
+                .post('/api/v1/admin/profiles')
+                .set('x-admin-api-key', adminKey)
+                .send(injectedPayload);
+            
+            // Will fail cleanly due to `.strict()` rules prohibiting `hackerProperty`
+            expect(res.status).toBe(400); 
+            expect(res.body.message).toBe('Validation failed');
+        });
     });
 });

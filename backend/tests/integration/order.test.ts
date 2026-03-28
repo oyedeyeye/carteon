@@ -67,6 +67,21 @@ describe('Ordering & Payments Endpoints', () => {
             expect(PaymentService.prototype.initializePayment).toHaveBeenCalledTimes(1);
         });
 
+        it('should fail transaction initiation when totalAmount is manipulated to a false low value', async () => {
+            const maliciousPayload = {
+                customerData: { name: 'Attacker', email: 'audit@carteon.com', phone: '123', address: '123 St' },
+                items: [{ cardType: 'SMART_ONLY', quantity: 1 }],
+                totalAmount: 1 // Malicious manipulated price (Real price is 15000)
+            };
+
+            const res = await request(app).post('/api/v1/orders').send(maliciousPayload);
+            
+            // Fails correctly due to price mismatch logic
+            expect(res.status).not.toBe(201); 
+            expect(res.body.message).toMatch(/Price manipulation detected|Internal server error/);
+        });
+
+
         it('should return 400 if validation fails', async () => {
             const res = await request(app).post('/api/v1/orders').send({});
             expect(res.status).toBe(400);

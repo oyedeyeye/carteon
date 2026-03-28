@@ -7,6 +7,15 @@ interface LeadData {
     recipientCompany?: string;
 }
 
+const escapeHtml = (unsafe: string): string => {
+    return unsafe
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+};
+
 export class EmailService {
     private transporter;
 
@@ -24,6 +33,11 @@ export class EmailService {
     }
 
     async sendLeadNotification(ownerEmail: string, leadData: LeadData): Promise<void> {
+        const safeName = escapeHtml(leadData.recipientName);
+        const safeEmail = escapeHtml(leadData.recipientEmail);
+        const safePhone = escapeHtml(leadData.recipientPhone);
+        const safeCompany = leadData.recipientCompany ? escapeHtml(leadData.recipientCompany) : '';
+
         const mailOptions = {
             from: process.env.FROM_EMAIL || '"Carteon Alerts" <alerts@carteon.com>',
             to: ownerEmail,
@@ -33,10 +47,10 @@ export class EmailService {
                     <h2>New Contact Alert!</h2>
                     <p>Someone just shared their contact details with you via your Carteon Card.</p>
                     <div style="background-color: #f9f9f9; padding: 15px; border-radius: 5px; margin-top: 15px;">
-                        <p><strong>Name:</strong> ${leadData.recipientName}</p>
-                        <p><strong>Email:</strong> ${leadData.recipientEmail}</p>
-                        <p><strong>Phone:</strong> ${leadData.recipientPhone}</p>
-                        ${leadData.recipientCompany ? `<p><strong>Company:</strong> ${leadData.recipientCompany}</p>` : ''}
+                        <p><strong>Name:</strong> ${safeName}</p>
+                        <p><strong>Email:</strong> ${safeEmail}</p>
+                        <p><strong>Phone:</strong> ${safePhone}</p>
+                        ${safeCompany ? `<p><strong>Company:</strong> ${safeCompany}</p>` : ''}
                     </div>
                 </div>
             `,

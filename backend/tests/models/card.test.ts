@@ -36,6 +36,20 @@ describe('Card Model Validation', () => {
         expect(savedCard.slug).toBe(validCardData.slug);
     });
 
+    it('should successfully create a card with a colorVariant', async () => {
+        const validCardData = {
+            cardId: 'NFC-COLOR-1',
+            userId: new mongoose.Types.ObjectId(),
+            cardType: 'SMART_ONLY',
+            status: 'ACTIVE',
+            slug: 'my-color-card',
+            colorVariant: 'Matte Black Metal'
+        };
+        const card = new Card(validCardData);
+        const savedCard = await card.save();
+        expect(savedCard.colorVariant).toBe('Matte Black Metal');
+    });
+
     it('should fail if cardId is missing', async () => {
         const invalidCard = new Card({ cardType: 'SMART_ONLY' });
         let error;

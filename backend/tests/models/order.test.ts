@@ -38,6 +38,27 @@ describe('Order Model Validation', () => {
         expect(savedOrder.totalAmount).toBe(15000);
     });
 
+    it('should successfully create an order with a colorVariant in items', async () => {
+        const orderData = {
+            customerData: {
+                name: 'Alice',
+                email: 'alice@example.com',
+                phone: '+2348000',
+                address: '123 Street',
+            },
+            items: [
+                { cardType: 'SMART_ONLY', quantity: 2, colorVariant: 'Gold Metal' }
+            ],
+            totalAmount: 30000,
+            paymentStatus: 'PENDING',
+            paymentGateway: 'Paystack',
+            transactionReference: 'REF-COLOR',
+        };
+        const order = new Order(orderData);
+        const savedOrder = await order.save();
+        expect(savedOrder.items[0].colorVariant).toBe('Gold Metal');
+    });
+
     it('should fail if totalAmount is missing', async () => {
         const invalidOrder = new Order({ customerData: { name: 'Bob' } });
         let error;

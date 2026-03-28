@@ -4,6 +4,7 @@ export interface ICard extends Document {
     cardId: string;
     userId: mongoose.Types.ObjectId;
     cardType: 'SMART_ONLY' | 'PVC_QR_ONLY' | 'COMPLETE_PACKAGE';
+    colorVariant?: string;
     status: 'PENDING_ACTIVATION' | 'ACTIVE' | 'INACTIVE';
     slug: string;
     subscription?: {
@@ -36,6 +37,9 @@ const cardSchema = new Schema<ICard>(
                 message: '{VALUE} is not a valid card type',
             },
             required: [true, 'Card type is required'],
+        },
+        colorVariant: {
+            type: String,
         },
         status: {
             type: String,
