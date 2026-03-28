@@ -10,6 +10,7 @@ export interface IOrder extends Document {
     items: Array<{
         cardType: 'SMART_ONLY' | 'PVC_QR_ONLY' | 'COMPLETE_PACKAGE';
         quantity: number;
+        colorVariant?: string;
     }>;
     totalAmount: number;
     paymentStatus: 'PENDING' | 'SUCCESS' | 'FAILED';
@@ -39,6 +40,7 @@ const orderSchema = new Schema<IOrder>(
                     required: true,
                 },
                 quantity: { type: Number, required: true, min: 1 },
+                colorVariant: { type: String },
             },
         ],
         totalAmount: { type: Number, required: true },

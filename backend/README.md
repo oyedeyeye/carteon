@@ -68,6 +68,7 @@ Understanding the data schema will help frontend developers structure their comp
 *   **`cardId`**: String *(Mapping to the physical NFC URL or QR code)*
 *   **`userId`**: ObjectId *(Ref: User)*
 *   **`cardType`**: Enum `['SMART_ONLY', 'PVC_QR_ONLY', 'COMPLETE_PACKAGE']`
+*   **`colorVariant`**: String *(Optional - E.g. Matte Black Metal)*
 *   **`status`**: Enum `['PENDING_ACTIVATION', 'ACTIVE', 'INACTIVE']`
 *   **`subscription`**: Object `{ status, expiryDate, planType }` *(Pricing is per card)*
 *   **`slug`**: String *(Unique string for frontend friendly routing)*
@@ -92,7 +93,7 @@ Understanding the data schema will help frontend developers structure their comp
 
 ### 5. `Order` (Checkout)
 *   **`customerData`**: Object `{ name, email, phone, address }`
-*   **`items`**: Array `[{ cardType, quantity }]`
+*   **`items`**: Array `[{ cardType, quantity, colorVariant }]`
 *   **`totalAmount`**: Number
 *   **`paymentStatus`**: Enum `['PENDING', 'SUCCESS', 'FAILED']`
 
@@ -184,11 +185,36 @@ All public-facing API routes are prefixed with `/api/v1/`.
 
 ---
 
-### 4. Checkout & Ordering
+### 4. Product Catalogue
+
+#### Fetch Available Cards
+*   **Endpoint:** `GET /api/v1/products/cards`
+*   **Description:** Retrieves the product catalogue. Use this to display the available card types, base pricing, and available finishes (e.g. Matte Black Metal, Gold Metal) to potential customers on the marketing frontend.
+*   **Success Response (200 OK):**
+    ```json
+    {
+      "status": "success",
+      "data": [
+        {
+          "cardType": "SMART_ONLY",
+          "slug": "carteon-smart-card",
+          "name": "Carteon Smart Card",
+          "description": "Premium NFC-enabled smart business card",
+          "basePrice": 15000,
+          "finishes": ["Matte Black Metal", "Gold Metal", "Silver Metal", "Gold mirror"]
+        }
+      ]
+    }
+    ```
+
+---
+
+### 5. Checkout & Ordering
 
 #### Initialize Order
 *   **Endpoint:** `POST /api/v1/orders`
 *   **Description:** Creates a new order instance internally and initializes a payment session externally (Paystack).
+*   **Note on Redirects:** Once initialized, the backend automatically provides a `callback_url` to the payment provider. After a successful payment, the user will be redirected back to the frontend's payment success page (`FRONTEND_PAYMENT_SUCCESS_URL` env variable, typically `/payment/success`). Ensure this frontend page displays a profile setup link in case automatic redirection logic failed or if the user needs to set up later.
 *   **Request Body:**
     ```json
     {
@@ -199,11 +225,12 @@ All public-facing API routes are prefixed with `/api/v1/`.
           "address": "Lekki Phase 1"
        },
        "items": [
-          { "cardType": "COMPLETE_PACKAGE", "quantity": 1 }
+          { "cardType": "SMART_ONLY", "quantity": 1, "colorVariant": "Gold Metal" }
        ],
-       "totalAmount": 15000
+   "totalAmount": 15000 // Verified strictly backend-side
     }
     ```
+*   **Security Notice:** The `totalAmount` provided by the client is strictly validated against the server-side `ProductService` base pricing. Any discrepancies (price manipulation attempts) will result in transaction failure and explicit errors.
 *   **Success Response (201 Created):**
     ```json
     {
@@ -228,7 +255,7 @@ All public-facing API routes are prefixed with `/api/v1/`.
 
 ---
 
-### 5. Admin Utilities (MVP)
+### 6. Admin Utilities (MVP)
 
 Note: All admin endpoints necessitate a valid `x-admin-api-key` header to operate. The default development key is `default_admin_key_for_dev`.
 
@@ -248,7 +275,16 @@ Note: All admin endpoints necessitate a valid `x-admin-api-key` header to operat
 *   **Endpoint:** `POST /api/v1/admin/profiles`
 *   **Headers:** `x-admin-api-key`
 *   **Request Body:** `{ "userId", "cardId", "profileName", "isDefault", "theme", "identity", "contactInfo", "links", "isActive" }`
+*   **Note:** The Admin payload schema strictly parses incoming data. Any undocumented keys submitted in `theme` or `contactInfo` will result in a Validation Error to prevent NoSQL injection and Object pollution.
 *   **Success Response (201 Created):** `{"status": "success", "data": { ...profile }}`
+
+---
+
+## 🛡 Security Characteristics
+The backend implements strict validation mapping aligned to OWASP Top 10 guidelines:
+* **Global Error Wrapping**: Express explicitly catches all JSON `SyntaxError`s and controller limits to provide graceful, stack-free `400`/`500` JSON shapes.
+* **TDD Idempotency / Race Condition Prevention**: Database writes utilize unique MongoDB locks (`findOneAndUpdate` with `$ne`) ensuring repetitive webhook signals never double-process.
+* **XSS Mitigation**: User strings entering outbound HTML services (e.g. Lead Contacts mapped into Notification emails) traverse strict entity encoding utilities. 
 
 ---
 

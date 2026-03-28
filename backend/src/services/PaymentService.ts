@@ -4,6 +4,7 @@ interface PaymentInitializationData {
     amount: number;
     email: string;
     reference: string;
+    callback_url?: string;
 }
 
 export class PaymentService {
