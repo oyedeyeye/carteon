@@ -20,7 +20,7 @@ const Navbar = () => {
             </ul>
 
             <div className="hidden sm:flex items-center">
-                <a href="" className="w-[190px] h-[48px] bg-[#252C46] rounded-[40px] py-[11px] px-[24px] font-outfit font-semibold text-[18px] text-white">
+                <a href="#choose" className="w-[190px] h-[48px] bg-[#252C46] rounded-[40px] py-[11px] px-[24px] font-outfit font-semibold text-[18px] text-white">
                     Get Your Carteon
                 </a>
             </div>
@@ -41,7 +41,7 @@ const Navbar = () => {
                     <a href="#pricing" className="text-[#252C46] text-[18px]">Pricing</a>
                     <a href="#faq" className="text-[#252C46] text-[18px]">FAQ</a>
                     <a
-                        href=""
+                        href="#choose"
                         className="w-[190px] h-[48px] bg-[#252C46] rounded-[40px] py-[15px] px-[24px] font-outfit font-semibold text-[18px] text-white flex items-center justify-center"
                     >
                         Get Your Carteon

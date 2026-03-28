@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState} from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { Minus, Plus } from "lucide-react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
@@ -67,11 +68,16 @@ const faqData = [
 ];
 
 const LandingPage = () => {
-
+    const navigate = useNavigate();
     const [active, setActive] = useState(null);
 
     const toggle = (index) => {
         setActive(active === index ? null : index);
+    };
+
+    const handleBuyNowClick = () => {
+        navigate("/cards/metal-smart-card");
+        window.scrollTo({ top: 0, behavior: "auto" });
     };
 
     return (
@@ -124,7 +130,7 @@ const LandingPage = () => {
 
                 <div className="mt-[60px] lg:mt-[85px] flex justify-center relative">
 
-                    <img src={hero1} alt="" className="w-full max-w-[350px] h-[550px] sm:h-auto"/>
+                    <img src={hero1} alt="" className="w-full max-w-[350px] h-[550px] sm:h-auto" />
 
                     <div className="hidden lg:block absolute top-[40%] left-[20%] lg:top-49 lg:left-[-112%]">
                         <img src={hero2} alt="" className="w-[120px] lg:w-auto" />
@@ -392,7 +398,7 @@ const LandingPage = () => {
                 <div className="flex justify-center items-center mt-[60px] md:mt-[80px]">
                     <a
                         className="w-[280px] md:w-[260px] lg:w-[278px] h-[50px] flex items-center justify-center gap-2 bg-[#252C46] rounded-[8px] py-[14px] px-[30px] font-inter font-medium text-[13px] text-white leading-[24px]"
-                        href=""
+                        href="#choose"
                     >
                         Get Your Carteon SmartCard
                         <img src={arrow} alt="" />
@@ -589,7 +595,7 @@ const LandingPage = () => {
                     </div>
                 </div>
             </section>
-            <section className="w-full bg-[#F5F5F5] py-[60px] px-[20px] md:px-[40px] lg:px-[80px]">
+            <section id="choose" className="w-full bg-[#F5F5F5] py-[90px] px-[20px] md:px-[40px] lg:px-[80px]">
                 <div className="flex flex-col gap-3 justify-center items-center">
                     <h2 className="font-inter font-bold text-[24px] md:text-[28px] lg:text-[30.6px] text-[#1A1A1A] leading-[32px] md:leading-[36px] lg:leading-[40px] text-center tracking-[0%] align-middle">
                         Choose Your Carteon Smart Card
@@ -614,8 +620,13 @@ const LandingPage = () => {
                             <li className="flex items-center gap-3 text-[14px]"><img src={ttick} />Email Notifications</li>
                             <li className="flex items-center gap-3 text-[14px]"><img src={ttick} />Lifetime Profile Edits</li>
                         </ul>
-                        <div className="mt-[50px] flex justify-center">
-                            <a href="#" className="w-full h-[50px] rounded-[8px] border border-[#1A1A1A] flex items-center justify-center text-[14px]">Buy Now</a>
+                        <div className="mt-[30px] flex justify-center">
+                            <button
+                                onClick={handleBuyNowClick}
+                                className="w-full h-[50px] rounded-[8px] cursor-pointer border border-[#1A1A1A] flex items-center justify-center text-[14px]"
+                            >
+                                Buy Now
+                            </button>
                         </div>
                     </div>
                     <div className="w-full md:w-[403px] h-auto md:h-[773px] bg-white rounded-[20px] flex flex-col gap-3 p-[20px]">
@@ -633,8 +644,13 @@ const LandingPage = () => {
                             <li className="flex items-center gap-3 text-[14px]"><img src={ttick} />Lifetime Profile Edits</li>
                         </ul>
                         <p className="text-[14px] mt-[7px]">QR Scan Only (No NFC Tap)</p>
-                        <div className="mt-[50px] flex justify-center">
-                            <a href="#" className="w-full h-[50px] rounded-[8px] border border-[#1A1A1A] flex items-center justify-center text-[14px]">Buy Now</a>
+                        <div className="mt-[30px] flex justify-center">
+                            <button
+                                onClick={handleBuyNowClick}
+                                className="w-full h-[50px] rounded-[8px] cursor-pointer border border-[#1A1A1A] flex items-center justify-center text-[14px]"
+                            >
+                                Buy Now
+                            </button>
                         </div>
                     </div>
                     <div className="w-full md:w-[403px] h-auto md:h-[773px] bg-white rounded-[20px] flex flex-col gap-3 p-[20px]">
@@ -653,8 +669,13 @@ const LandingPage = () => {
                             <li className="flex items-center gap-3 text-[14px]"><img src={ttick} />Email Notifications</li>
                             <li className="flex items-center gap-3 text-[14px]"><img src={ttick} />Lifetime Profile Edits</li>
                         </ul>
-                        <div className="mt-[11px] flex justify-center">
-                            <a href="#" className="w-full h-[50px] rounded-[8px] border border-[#1A1A1A] flex items-center justify-center text-[14px]">Buy Now</a>
+                        <div className="mt-[0px] flex justify-center">
+                            <button
+                                onClick={handleBuyNowClick}
+                                className="w-full h-[50px] rounded-[8px] cursor-pointer border border-[#1A1A1A] flex items-center justify-center text-[14px]"
+                            >
+                                Buy Now
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -748,10 +769,10 @@ const LandingPage = () => {
                             </tr>
 
                             <tr className="border-t border-[#E5E7EB]">
-                                <td className="p-2 font-inter font-bold text-[14px] text-[#000]">Action</td>
-                                <td><a href="#" className="block text-center border py-1 w-[70px] mt-[5px] h-[50px] rounded-[8px] border border-[#1A1A1A] flex items-center justify-center text-[14px]">Buy</a></td>
-                                <td><a href="#" className="block text-center border py-1 w-[70px] mt-[5px] h-[50px] rounded-[8px] border border-[#1A1A1A] flex items-center justify-center text-[14px]">Buy</a></td>
-                                <td><a href="#" className="block border py-1 w-[70px] h-[50px] ml-[8px] mt-[5px] rounded-[8px] border border-[#1A1A1A] flex items-center justify-center text-[14px]">Buy</a></td>
+                                <td className="p-2 font-Inter font-bold text-[14px] text-[#000]">Action</td>
+                                <td><Link to="/cards/metal-smart-card" className="block text-center border py-1 w-[70px] mt-[5px] h-[50px] rounded-[8px] border border-[#1A1A1A] flex items-center justify-center text-[14px]">Buy</Link></td>
+                                <td><Link to="/cards/metal-smart-card" className="block text-center border py-1 w-[70px] mt-[5px] h-[50px] rounded-[8px] border border-[#1A1A1A] flex items-center justify-center text-[14px]">Buy</Link></td>
+                                <td><Link to="/cards/metal-smart-card" className="block border py-1 w-[70px] h-[50px] ml-[8px] mt-[5px] rounded-[8px] border border-[#1A1A1A] flex items-center justify-center text-[14px]">Buy</Link></td>
                             </tr>
 
                         </tbody>
