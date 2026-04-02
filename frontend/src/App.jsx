@@ -5,6 +5,7 @@ import LandingPage from "./pages/LandingPage/LandingPage.jsx";
 import DigitalCard from "./pages/Profile/Digitalprofile.jsx";
 import Checkout from "./pages/Order/Order.jsx";
 import Success from "./pages/Success/Success.jsx";
+import ProfileSetup from "./pages/ProfileDetails/ProfileSetup.jsx";
 
 
 function Layout() {
@@ -22,6 +23,7 @@ function App() {
       <Route element={<Layout />}>
         <Route path="/" element={<LandingPage />} />
         <Route path="/cards/:slug" element={<CardDetails />} />
+        <Route path="/profiledetails" element={<ProfileSetup/>} />
         <Route path="checkout" element={<Checkout />} />
         <Route path="success" element={<Success />} />
         <Route path="/adaeze" element={<DigitalCard />} />

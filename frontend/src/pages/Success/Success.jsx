@@ -8,34 +8,54 @@ const Success = () => {
 
     return (
         <section>
-            <div className="flex flex-col items-center justify-center h-screen text-center px-4 mt-10">
+            <div className="flex flex-col items-center justify-center min-h-screen text-center px-4 mt-10">
+
                 <div>
-                    <img src={confetti} alt="" className="mx-auto" />
-                    <h1 className="text-3xl font-bold mb-3">Payment Confirmed.</h1>
+                    <img src={confetti} alt="" className="mx-auto w-24 md:w-auto" />
+
+                    <h1 className="font-Inter font-semibold text-[28px] md:text-[40px] leading-[40px] md:leading-[61.6px] tracking-[-1.12px] text-[#0F1419] text-center">
+                        Payment Confirmed.
+                    </h1>
                 </div>
 
-                <p className="mb-6 text-gray-600">
-                    Your card is being crafted. Let's set up your digital identity.
+                <p className="font-Inter font-normal w-full max-w-[556px] text-[16px] md:text-[20px] leading-[24px] md:leading-[29.25px] tracking-[-0.16px] text-[#64748B] text-center">
+                    Your Carteon card is being crafted. Let's set up your digital identity while we prepare your shipment.
                 </p>
 
-                <div className="bg-gray-100 p-6 rounded-lg w-[300px]">
-                    <p className="font-semibold">Order Confirmation</p>
-                    <p className="text-lg">{ref}</p>
+                <div className="w-full max-w-[576px] h-auto mt-[20px] bg-[#F5F5F5] p-[15px] flex flex-col gap-3 rounded-md">
 
-                    <p className="mt-2">Cards Ordered: 1</p>
+                    <div className="flex items-center justify-between">
+                        <p className="font-Inter font-normal text-[12px] md:text-[14px] leading-[20px] tracking-[-0.16px] text-[#525252]">
+                            Order Confirmation
+                        </p>
+                        <p className="font-Inter font-semibold text-[16px] md:text-[18px] leading-[28px] tracking-[-0.16px] text-[#1A1A1A]">
+                            #CART-F788HXN
+                        </p>
+                    </div>
+
+                    <p className="text-sm md:text-lg break-all">{ref}</p>
+
+                    <div className="flex items-center justify-between">
+                        <p className="font-Inter font-normal text-[12px] md:text-[14px] leading-[20px] tracking-[-0.16px] text-[#525252]">
+                            Cards Ordered
+                        </p>
+                        <p className="font-Inter font-semibold text-[16px] md:text-[18px] leading-[28px] tracking-[-0.16px] text-[#1A1A1A]">
+                            1
+                        </p>
+                    </div>
                 </div>
 
-                <p className="text-sm mt-4 text-gray-500">
-                    3–7 working days within Lagos, 7–21 outside Nigeria
+                <p className="font-Inter mt-4 font-normal text-[12px] md:text-[14px] leading-[100%] text-[#525252] text-center">
+                    3-7 working days outside Lagos, then 7-21 working days outside Nigeria
                 </p>
 
-                <button className="bg-black text-white px-6 py-3 mt-6 rounded-lg">
+                <button className="w-full max-w-[576px] h-[56px] md:h-[60px] cursor-pointer bg-[#0F1419] mt-8 rounded-[8px] py-[16px] px-[20px] md:px-[40px] font-Inter font-medium text-[16px] md:text-[18px] leading-[28px] tracking-[-0.45px] text-[#FAFBFC] text-center">
                     Set Up My Profile
                 </button>
             </div>
+
             <Footer />
         </section>
-
     );
 };
 

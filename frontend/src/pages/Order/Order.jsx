@@ -1,11 +1,19 @@
 import { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Footer from "../../components/Footer/Footer";
 
 const Checkout = () => {
+    const navigate = useNavigate();
+    const PAYSTACK_PUBLIC_KEY = import.meta.env.VITE_PAYSTACK_PUBLIC_KEY;
+
+    const priceMap = {
+        "Gold Metal": 18000,
+        "Matte Black Metal": 18000,
+    };
+
     const location = useLocation();
-    const selectedProduct = location.state?.variant; 
+    const selectedProduct = location.state?.variant;
     const quantity = location.state?.quantity || 1;
 
     const [formData, setFormData] = useState({
@@ -13,16 +21,18 @@ const Checkout = () => {
         email: "",
         phone: "",
         address: "",
+        city: "",
+        state: "",
+        zip: "",
     });
 
     const [loading, setLoading] = useState(false);
 
-
     const product = {
         name: "Metal Smart Card",
         variant: selectedProduct?.variantName || "Matte Black Metal",
-        price: selectedProduct?.price || 50000,
         quantity: quantity,
+        price: priceMap[selectedProduct?.variantName] || 18000,
         cardType: "COMPLETE_PACKAGE",
     };
 
@@ -33,31 +43,54 @@ const Checkout = () => {
         });
     };
 
+    // --- Payment and Order Handler ---
     const handleSubmit = async () => {
+        if (!formData.name || !formData.email || !formData.phone || !formData.address) {
+            alert("Please fill all required fields");
+            return;
+        }
+
         try {
             setLoading(true);
 
-            const res = await axios.post("/api/v1/orders", {
+            // Prepare order payload
+            const payload = {
                 customerData: {
                     name: formData.name,
                     email: formData.email,
                     phone: formData.phone,
-                    address: formData.address,
+                    address: `${formData.address}, ${formData.city}, ${formData.state}, ${formData.zip}`,
                 },
                 items: [
                     {
                         cardType: product.cardType,
-                        quantity: product.quantity,
+                        quantity: Number(product.quantity),
+                        colorVariant: product.variant,
                     },
                 ],
-                totalAmount: product.price * product.quantity,
-            });
+                totalAmount: Number(product.price * product.quantity),
+            };
 
-            window.location.href = res.data.data.paymentUrl;
+            // --- 1. Initialize Payment via backend ---
+            const res = await axios.post("http://localhost:3000/api/v1/orders", payload);
+
+            const paymentUrl = res.data?.data?.paymentUrl;
+            const reference = res.data?.data?.reference; // backend must return reference
+
+            if (!paymentUrl || !reference) {
+                alert("Payment initialization failed");
+                return;
+            }
+
+            // --- 2. Redirect user to Paystack ---
+            window.location.href = paymentUrl;
+
+            // Optional: After redirect, handle verification on /success
+            // navigate(`/success?reference=${reference}`);
 
         } catch (error) {
-            console.error(error);
-            alert("Something went wrong!");
+            console.error("Payment error:", error?.response?.data || error.message);
+            alert(error?.response?.data?.message || "Something went wrong!");
         } finally {
             setLoading(false);
         }
@@ -72,100 +105,27 @@ const Checkout = () => {
             </div>
 
             <div className="max-w-6xl pb-10 sm:pb-16 md:pb-20 mx-4 md:mx-auto grid grid-cols-1 gap-7 md:grid-cols-2 gap-6 sm:gap-8 md:gap-10">
-                {/* Contact Information */}
+                {/* Contact Info Form */}
                 <div>
                     <h2 className="font-Inter font-medium text-[20px] sm:text-[22px] md:text-[24px] leading-[120%] text-[#1A1A1A] mb-4 sm:mb-5 md:mb-6">
                         Contact Information
                     </h2>
 
                     <div className="space-y-4 sm:space-y-5">
-                        <div className="flex flex-col gap-2 sm:gap-3">
-                            <label className="font-Inter font-normal text-[14px] sm:text-[15px] leading-[120%] text-[#1A1A1A]">
-                                Full Name
-                            </label>
-                            <input
-                                type="text"
-                                name="name"
-                                placeholder="Your full name"
-                                onChange={handleChange}
-                                className="w-full h-[45px] sm:h-[50px] px-3 sm:px-4 rounded-lg bg-gray-100 outline-none"
-                            />
-                        </div>
-
-                        <div className="flex flex-col gap-2 sm:gap-3">
-                            <label className="font-Inter font-normal text-[14px] sm:text-[15px] leading-[120%] text-[#1A1A1A]">
-                                Email
-                            </label>
-                            <input
-                                type="email"
-                                name="email"
-                                placeholder="youremail@gmail.com"
-                                onChange={handleChange}
-                                className="w-full h-[45px] sm:h-[50px] px-3 sm:px-4 rounded-lg bg-gray-100 outline-none"
-                            />
-                        </div>
-
-                        <div className="flex flex-col gap-2 sm:gap-3">
-                            <label className="font-Inter font-normal text-[14px] sm:text-[15px] leading-[120%] text-[#1A1A1A]">
-                                Phone Number
-                            </label>
-                            <input
-                                type="text"
-                                name="phone"
-                                placeholder="+2345059495904"
-                                onChange={handleChange}
-                                className="w-full h-[45px] sm:h-[50px] px-3 sm:px-4 rounded-lg bg-gray-100 outline-none"
-                            />
-                        </div>
-
-                        <div className="flex flex-col gap-2 sm:gap-3">
-                            <label className="font-Inter font-normal text-[14px] sm:text-[15px] leading-[120%] text-[#1A1A1A]">
-                                Address
-                            </label>
-                            <input
-                                type="text"
-                                name="address"
-                                placeholder="234 Main Str"
-                                onChange={handleChange}
-                                className="w-full h-[45px] sm:h-[50px] px-3 sm:px-4 rounded-lg bg-gray-100 outline-none"
-                            />
-                        </div>
-
-                        {/* City, State, ZIP */}
-                        <div className="flex flex-col sm:flex-row gap-4">
-                            <div className="flex-1 flex flex-col gap-2 sm:gap-3">
-                                <label className="font-Inter font-normal text-[14px] sm:text-[15px] leading-[120%] text-[#1A1A1A]">City</label>
+                        {["name", "email", "phone", "address", "city", "state", "zip"].map((field) => (
+                            <div key={field} className="flex flex-col gap-2 sm:gap-3">
+                                <label className="font-Inter font-normal text-[14px] sm:text-[15px] leading-[120%] text-[#1A1A1A]">
+                                    {field.charAt(0).toUpperCase() + field.slice(1).replace("_", " ")}
+                                </label>
                                 <input
-                                    type="text"
-                                    name="city"
-                                    placeholder="New York"
+                                    type={field === "email" ? "email" : "text"}
+                                    name={field}
+                                    placeholder={field === "zip" ? "10001" : `Enter your ${field}`}
                                     onChange={handleChange}
                                     className="w-full h-[45px] sm:h-[50px] px-3 sm:px-4 rounded-lg bg-gray-100 outline-none"
                                 />
                             </div>
-
-                            <div className="flex-1 flex flex-col gap-2 sm:gap-3">
-                                <label className="font-Inter font-normal text-[14px] sm:text-[15px] leading-[120%] text-[#1A1A1A]">State</label>
-                                <input
-                                    type="text"
-                                    name="state"
-                                    placeholder="NY"
-                                    onChange={handleChange}
-                                    className="w-full h-[45px] sm:h-[50px] px-3 sm:px-4 rounded-lg bg-gray-100 outline-none"
-                                />
-                            </div>
-
-                            <div className="flex-1 flex flex-col gap-2 sm:gap-3">
-                                <label className="font-Inter font-normal text-[14px] sm:text-[15px] leading-[120%] text-[#1A1A1A]">ZIP Code</label>
-                                <input
-                                    type="text"
-                                    name="zip"
-                                    placeholder="10001"
-                                    onChange={handleChange}
-                                    className="w-full h-[45px] sm:h-[50px] px-3 sm:px-4 rounded-lg bg-gray-100 outline-none"
-                                />
-                            </div>
-                        </div>
+                        ))}
                     </div>
                 </div>
 
@@ -180,12 +140,10 @@ const Checkout = () => {
                             <span className="font-Inter text-[13px] sm:text-[14px] leading-[20px] text-[#737373]">Product</span>
                             <span className="font-Inter font-medium text-[13px] sm:text-[14px] leading-[20px] text-[#0A0A0A]">{product.name}</span>
                         </div>
-
                         <div className="flex justify-between">
                             <span className="font-Inter text-[13px] sm:text-[14px] leading-[20px] text-[#737373]">Variant</span>
                             <span className="font-Inter font-medium text-[13px] sm:text-[14px] leading-[20px] text-[#0A0A0A]">{product.variant}</span>
                         </div>
-
                         <div className="flex justify-between">
                             <span className="font-Inter text-[13px] sm:text-[14px] leading-[20px] text-[#737373]">Quantity</span>
                             <span className="font-Inter font-medium text-[13px] sm:text-[14px] leading-[20px] text-[#0A0A0A]">{product.quantity}</span>
@@ -215,12 +173,9 @@ const Checkout = () => {
                     </button>
                 </div>
             </div>
-
-            <div>
-                <Footer />
-            </div>
+            <Footer />
         </section>
     );
-}
+};
 
 export default Checkout;
