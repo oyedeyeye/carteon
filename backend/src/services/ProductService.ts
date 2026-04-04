@@ -6,7 +6,7 @@ export class ProductService {
                 slug: 'carteon-smart-card',
                 name: 'Carteon Smart Card',
                 description: 'Premium NFC-enabled smart business card',
-                basePrice: 15000,
+                basePrice: 50000,
                 finishes: ['Matte Black Metal', 'Gold Metal', 'Silver Metal', 'Gold mirror']
             },
             {
@@ -14,7 +14,7 @@ export class ProductService {
                 slug: 'pvc-qr-card',
                 name: 'PVC QR Card',
                 description: 'PVC card with scannable QR code',
-                basePrice: 5000,
+                basePrice: 30000,
                 finishes: []
             },
             {
@@ -22,7 +22,7 @@ export class ProductService {
                 slug: 'complete-package',
                 name: 'Complete Package',
                 description: 'Bundle of Smart Card and PVC QR Card',
-                basePrice: 18000,
+                basePrice: 50000,
                 finishes: ['Matte Black Metal', 'Gold Metal', 'Silver Metal', 'Gold mirror']
             }
         ];
