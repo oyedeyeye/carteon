@@ -43,7 +43,7 @@ const Checkout = () => {
         });
     };
 
-    // --- Payment and Order Handler ---
+
     const handleSubmit = async () => {
         if (!formData.name || !formData.email || !formData.phone || !formData.address) {
             alert("Please fill all required fields");
@@ -53,7 +53,6 @@ const Checkout = () => {
         try {
             setLoading(true);
 
-            // Prepare order payload
             const payload = {
                 customerData: {
                     name: formData.name,
@@ -71,22 +70,19 @@ const Checkout = () => {
                 totalAmount: Number(product.price * product.quantity),
             };
 
-            // --- 1. Initialize Payment via backend ---
-            const res = await axios.post("http://localhost:3000/api/v1/orders", payload);
+            const res = await axios.post(
+                "http://localhost:3000/api/v1/orders",
+                payload
+            );
 
             const paymentUrl = res.data?.data?.paymentUrl;
-            const reference = res.data?.data?.reference; // backend must return reference
 
-            if (!paymentUrl || !reference) {
+            if (!paymentUrl) {
                 alert("Payment initialization failed");
                 return;
             }
 
-            // --- 2. Redirect user to Paystack ---
             window.location.href = paymentUrl;
-
-            // Optional: After redirect, handle verification on /success
-            // navigate(`/success?reference=${reference}`);
 
         } catch (error) {
             console.error("Payment error:", error?.response?.data || error.message);
@@ -105,7 +101,6 @@ const Checkout = () => {
             </div>
 
             <div className="max-w-6xl pb-10 sm:pb-16 md:pb-20 mx-4 md:mx-auto grid grid-cols-1 gap-7 md:grid-cols-2 gap-6 sm:gap-8 md:gap-10">
-                {/* Contact Info Form */}
                 <div>
                     <h2 className="font-Inter font-medium text-[20px] sm:text-[22px] md:text-[24px] leading-[120%] text-[#1A1A1A] mb-4 sm:mb-5 md:mb-6">
                         Contact Information
@@ -129,7 +124,6 @@ const Checkout = () => {
                     </div>
                 </div>
 
-                {/* Order Summary */}
                 <div className="bg-white h-auto p-4 sm:p-6 md:p-6 rounded-xl shadow">
                     <h3 className="font-Inter font-semibold text-[14px] sm:text-[15.3px] leading-[28px] text-[#0A0A0A] mb-3 sm:mb-4">
                         Order Summary

@@ -45,7 +45,7 @@ export class OrderService {
             amount: calculatedTotal * 100, // Safe backend calculated amount
             email: orderData.customerData.email,
             reference,
-            callback_url: process.env.FRONTEND_PAYMENT_SUCCESS_URL || 'http://localhost:3000/payment/success',
+            callback_url: process.env.FRONTEND_PAYMENT_SUCCESS_URL || `http://localhost:5173/success`,
         });
 
         return {
@@ -64,7 +64,7 @@ export class OrderService {
             {
                 $set: { paymentStatus: 'SUCCESS' }
             },
-            { new: true } // Returns the modified document
+            { returnDocument: 'after' } 
         );
 
         if (order) {

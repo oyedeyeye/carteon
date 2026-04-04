@@ -27,6 +27,40 @@ export class OrderController {
             });
         }
     }
+
+    async verifyPayment(req: Request, res: Response) {
+        try {
+            const { reference } = req.query;
+
+            if (!reference) {
+                return res.status(400).json({
+                    status: 'error',
+                    message: 'Reference is required',
+                });
+            }
+
+            const order = await orderService.handleSuccessfulPayment(reference as string);
+
+            if (!order) {
+                return res.status(404).json({
+                    status: 'error',
+                    message: 'Order not found or already processed',
+                });
+            }
+
+            return res.status(200).json({
+                status: 'success',
+                data: order,
+            });
+
+        } catch (error) {
+            console.error('Error verifying payment:', error);
+            return res.status(500).json({
+                status: 'error',
+                message: 'Internal server error',
+            });
+        }
+    }
 }
 
 export class WebhookController {

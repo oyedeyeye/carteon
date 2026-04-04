@@ -10,7 +10,11 @@ import { productRouter } from './routes/productRoutes';
 
 const app = express();
 
-app.use(helmet());
+app.use(
+    helmet({
+        contentSecurityPolicy: false,
+    })
+);
 app.use(cors());
 app.use(express.json({
     verify: (req: any, res, buf) => {
@@ -36,16 +40,16 @@ import { ErrorRequestHandler, NextFunction, Request, Response } from 'express';
 const globalErrorHandler: ErrorRequestHandler = (err: any, req: Request, res: Response, next: NextFunction) => {
     // Gracefully catch malformed JSON payloads bypassing default HTML parsers
     if (err instanceof SyntaxError && 'body' in err) {
-        return res.status(400).json({ 
-            status: 'error', 
-            message: 'Malformed JSON payload' 
+        return res.status(400).json({
+            status: 'error',
+            message: 'Malformed JSON payload'
         });
     }
 
     console.error('Unhandled System Error:', err.message);
-    res.status(500).json({ 
-        status: 'error', 
-        message: 'Internal server error' 
+    res.status(500).json({
+        status: 'error',
+        message: 'Internal server error'
     });
 };
 

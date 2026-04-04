@@ -8,6 +8,8 @@ const orderController = new OrderController();
 
 orderRouter.post('/', validate(createOrderSchema), orderController.createOrder);
 
+orderRouter.get('/verify', orderController.verifyPayment);
+
 export const webhookRouter = Router();
 const webhookController = new WebhookController();
 

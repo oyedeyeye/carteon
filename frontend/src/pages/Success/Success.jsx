@@ -1,17 +1,36 @@
+import { useEffect, useState } from "react";
+import axios from "axios";
 import { useLocation } from "react-router-dom";
 import confetti from "../../assets/confetti.png";
 import Footer from "../../components/Footer/Footer.jsx";
 
 const Success = () => {
     const query = new URLSearchParams(useLocation().search);
-    const ref = query.get("ref");
+    const reference = query.get("reference");
+
+    const [order, setOrder] = useState(null);
+
+    useEffect(() => {
+        const verifyPayment = async () => {
+            try {
+                const res = await axios.get(
+                    `http://localhost:3000/api/v1/orders/verify?reference=${reference}`
+                );
+                setOrder(res.data.data);
+            } catch (err) {
+                console.error(err);
+            }
+        };
+
+        if (reference) verifyPayment();
+    }, [reference]);
 
     return (
         <section>
             <div className="flex flex-col items-center justify-center min-h-screen text-center px-4 mt-10">
 
                 <div>
-                    <img src={confetti} alt="" className="mx-auto w-24 md:w-auto" />
+                    <img src={confetti} alt="Confetti" className="mx-auto w-24 md:w-auto" />
 
                     <h1 className="font-Inter font-semibold text-[28px] md:text-[40px] leading-[40px] md:leading-[61.6px] tracking-[-1.12px] text-[#0F1419] text-center">
                         Payment Confirmed.
@@ -29,24 +48,23 @@ const Success = () => {
                             Order Confirmation
                         </p>
                         <p className="font-Inter font-semibold text-[16px] md:text-[18px] leading-[28px] tracking-[-0.16px] text-[#1A1A1A]">
-                            #CART-F788HXN
+                            {reference}
                         </p>
                     </div>
 
-                    <p className="text-sm md:text-lg break-all">{ref}</p>
 
                     <div className="flex items-center justify-between">
                         <p className="font-Inter font-normal text-[12px] md:text-[14px] leading-[20px] tracking-[-0.16px] text-[#525252]">
                             Cards Ordered
                         </p>
                         <p className="font-Inter font-semibold text-[16px] md:text-[18px] leading-[28px] tracking-[-0.16px] text-[#1A1A1A]">
-                            1
+                            {order?.items?.[0]?.quantity || 0}
                         </p>
                     </div>
                 </div>
 
                 <p className="font-Inter mt-4 font-normal text-[12px] md:text-[14px] leading-[100%] text-[#525252] text-center">
-                    3-7 working days outside Lagos, then 7-21 working days outside Nigeria
+                    3-7 working days within Lagos, then 7-21 working days outside Nigeria
                 </p>
 
                 <button className="w-full max-w-[576px] h-[56px] md:h-[60px] cursor-pointer bg-[#0F1419] mt-8 rounded-[8px] py-[16px] px-[20px] md:px-[40px] font-Inter font-medium text-[16px] md:text-[18px] leading-[28px] tracking-[-0.45px] text-[#FAFBFC] text-center">
