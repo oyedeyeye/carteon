@@ -12,7 +12,7 @@ const Checkout = () => {
     const selectedCard = location.state?.variant;
     const quantity = location.state?.quantity || 1;
     const cardType = location.state?.cardType || "DefaultType";
-    const price = location.state?.price;
+    const price = location.state?.price || selectedCard?.price || 50000;
 
     // Redirect if no card data
     useEffect(() => {
@@ -59,7 +59,12 @@ const Checkout = () => {
             setLoading(true);
 
             // Map variant to enum
-            const cardType = location.state?.cardType;
+            const cardTypeMapping = {
+                "Smart Card": "SMART_ONLY",
+                "PVC QR Card": "PVC_QR_ONLY",
+                "Complete Package": "COMPLETE_PACKAGE",
+            };
+            const cardType = cardTypeMapping[selectedCard?.variantName] || "SMART_ONLY";
 
             const payload = {
                 customerData: {
