@@ -59,12 +59,7 @@ const Checkout = () => {
             setLoading(true);
 
             // Map variant to enum
-            const cardTypeMapping = {
-                "Smart Card": "SMART_ONLY",
-                "PVC QR Card": "PVC_QR_ONLY",
-                "Complete Package": "COMPLETE_PACKAGE",
-            };
-            const cardType = cardTypeMapping[selectedCard?.variantName] || "SMART_ONLY";
+            const cardType = location.state?.cardType;
 
             const payload = {
                 customerData: {
@@ -82,7 +77,6 @@ const Checkout = () => {
                 ],
                 totalAmount: Number(price * quantity),
                 paymentGateway: "PAYSTACK",
-                transactionReference: `CRT_${Date.now()}_${Math.floor(Math.random() * 10000)}`,
             };
 
             console.log("PAYLOAD:", payload);
