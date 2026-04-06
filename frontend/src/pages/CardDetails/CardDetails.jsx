@@ -18,7 +18,7 @@ const CardDetails = () => {
     useEffect(() => {
         const fetchCards = async () => {
             try {
-                const res = await axios.get("http://localhost:3000/api/v1/products/cards");;
+                const res = await axios.get("https://carteon-iota.vercel.app/health/products/cards");;
 
                 console.log("API RESPONSE:", res.data);
 
