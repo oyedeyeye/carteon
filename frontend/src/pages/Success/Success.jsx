@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import confetti from "../../assets/confetti.png";
 import Footer from "../../components/Footer/Footer.jsx";
 
 const Success = () => {
     const query = new URLSearchParams(useLocation().search);
     const reference = query.get("reference");
-
+    const navigate = useNavigate();
     const [order, setOrder] = useState(null);
 
     useEffect(() => {
@@ -67,7 +67,10 @@ const Success = () => {
                     3-7 working days within Lagos, then 7-21 working days outside Nigeria
                 </p>
 
-                <button className="w-full max-w-[576px] h-[56px] md:h-[60px] cursor-pointer bg-[#0F1419] mt-8 rounded-[8px] py-[16px] px-[20px] md:px-[40px] font-Inter font-medium text-[16px] md:text-[18px] leading-[28px] tracking-[-0.45px] text-[#FAFBFC] text-center">
+                <button
+                    onClick={() => navigate("/profiledetails")}
+                    className="w-full max-w-[576px] h-[56px] md:h-[60px] cursor-pointer bg-[#0F1419] mt-8 rounded-[8px] py-[16px] px-[20px] md:px-[40px] font-Inter font-medium text-[16px] md:text-[18px] leading-[28px] tracking-[-0.45px] text-[#FAFBFC] text-center"
+                >
                     Set Up My Profile
                 </button>
             </div>

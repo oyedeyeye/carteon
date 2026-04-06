@@ -1,4 +1,4 @@
-import { useState} from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Minus, Plus } from "lucide-react";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -75,8 +75,8 @@ const LandingPage = () => {
         setActive(active === index ? null : index);
     };
 
-    const handleBuyNowClick = () => {
-        navigate("/cards/metal-smart-card");
+    const handleBuyNowClick = (product) => {
+        navigate(`/cards/${product.slug}`, { state: { product } });
         window.scrollTo({ top: 0, behavior: "auto" });
     };
 
@@ -622,7 +622,14 @@ const LandingPage = () => {
                         </ul>
                         <div className="mt-[30px] flex justify-center">
                             <button
-                                onClick={handleBuyNowClick}
+                                onClick={() =>
+                                    handleBuyNowClick({
+                                        slug: "carteon-smart-card",
+                                        name: "Carteon Smart Card",
+                                        basePrice: 50000,
+                                        finishes: ['Matte Black Metal', 'Gold Metal', 'Silver Metal', 'Gold mirror']
+                                    })
+                                }
                                 className="w-full h-[50px] rounded-[8px] cursor-pointer border border-[#1A1A1A] flex items-center justify-center text-[14px]"
                             >
                                 Buy Now
@@ -646,7 +653,14 @@ const LandingPage = () => {
                         <p className="text-[14px] mt-[7px]">QR Scan Only (No NFC Tap)</p>
                         <div className="mt-[30px] flex justify-center">
                             <button
-                                onClick={handleBuyNowClick}
+                                onClick={() =>
+                                    handleBuyNowClick({
+                                        slug: "pvc-qr-card",
+                                        name: "PVC QR Card",
+                                        basePrice: 30000,
+                                        finishes: [] // no variants
+                                    })
+                                }
                                 className="w-full h-[50px] rounded-[8px] cursor-pointer border border-[#1A1A1A] flex items-center justify-center text-[14px]"
                             >
                                 Buy Now
@@ -671,7 +685,14 @@ const LandingPage = () => {
                         </ul>
                         <div className="mt-[0px] flex justify-center">
                             <button
-                                onClick={handleBuyNowClick}
+                                onClick={() =>
+                                    handleBuyNowClick({
+                                        slug: "complete-package",
+                                        name: "Complete Package",
+                                        basePrice: 50000,
+                                        finishes: ['Matte Black Metal', 'Gold Metal', 'Silver Metal', 'Gold mirror']
+                                    })
+                                }
                                 className="w-full h-[50px] rounded-[8px] cursor-pointer border border-[#1A1A1A] flex items-center justify-center text-[14px]"
                             >
                                 Buy Now
@@ -767,14 +788,54 @@ const LandingPage = () => {
                                 <td className="text-center">❌</td>
                                 <td className="text-center">✅</td>
                             </tr>
-
                             <tr className="border-t border-[#E5E7EB]">
                                 <td className="p-2 font-Inter font-bold text-[14px] text-[#000]">Action</td>
-                                <td><Link to="/cards/metal-smart-card" className="block text-center border py-1 w-[70px] mt-[5px] h-[50px] rounded-[8px] border border-[#1A1A1A] flex items-center justify-center text-[14px]">Buy</Link></td>
-                                <td><Link to="/cards/metal-smart-card" className="block text-center border py-1 w-[70px] mt-[5px] h-[50px] rounded-[8px] border border-[#1A1A1A] flex items-center justify-center text-[14px]">Buy</Link></td>
-                                <td><Link to="/cards/metal-smart-card" className="block border py-1 w-[70px] h-[50px] ml-[8px] mt-[5px] rounded-[8px] border border-[#1A1A1A] flex items-center justify-center text-[14px]">Buy</Link></td>
+                                <td className="text-center">
+                                    <button
+                                        onClick={() =>
+                                            handleBuyNowClick({
+                                                slug: "carteon-smart-card",
+                                                name: "Carteon Smart Card",
+                                                basePrice: 50000,
+                                                finishes: ['Matte Black Metal', 'Gold Metal', 'Silver Metal', 'Gold mirror']
+                                            })
+                                        }
+                                        className="w-[70px] h-[50px] rounded-[8px] border border-[#1A1A1A] flex items-center justify-center text-[14px]"
+                                    >
+                                        Buy
+                                    </button>
+                                </td>
+                                <td className="text-center">
+                                    <button
+                                        onClick={() =>
+                                            handleBuyNowClick({
+                                                slug: "pvc-qr-card",
+                                                name: "PVC QR Card",
+                                                basePrice: 30000,
+                                                finishes: [] // no variants
+                                            })
+                                        }
+                                        className="w-[70px] h-[50px] rounded-[8px] border border-[#1A1A1A] flex items-center justify-center text-[14px]"
+                                    >
+                                        Buy
+                                    </button>
+                                </td>
+                                <td className="text-center">
+                                    <button
+                                        onClick={() =>
+                                            handleBuyNowClick({
+                                                slug: "complete-package",
+                                                name: "Complete Package",
+                                                basePrice: 50000,
+                                                finishes: ['Matte Black Metal', 'Gold Metal', 'Silver Metal', 'Gold mirror']
+                                            })
+                                        }
+                                        className="w-[70px] h-[50px] rounded-[8px] border border-[#1A1A1A] flex items-center justify-center text-[14px]"
+                                    >
+                                        Buy
+                                    </button>
+                                </td>
                             </tr>
-
                         </tbody>
                     </table>
                 </div>

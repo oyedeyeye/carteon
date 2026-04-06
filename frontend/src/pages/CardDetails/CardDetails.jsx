@@ -1,13 +1,15 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import Footer from "../../components/Footer/Footer";
 import mark1 from "../../assets/mark1.png";
 import tickk from "../../assets/tickk.png";
+import card2 from "../../assets/card2.png";
 
 const CardDetails = () => {
     const navigate = useNavigate();
-
+    const location = useLocation();
+    const product = location.state?.product;
     const [cardVariants, setCardVariants] = useState([]);
     const [selectedVariant, setSelectedVariant] = useState(null);
     const [mainImage, setMainImage] = useState("");
@@ -25,30 +27,45 @@ const CardDetails = () => {
                     return;
                 }
 
-                const product = res.data.data[0];
+                let mappedVariants = [];
 
-                const mappedVariants = product.finishes.map((finish, index) => {
-                    let hex = "#1A1A1A";
-                    let image = "/images/black-card.png";
+                if (product.finishes && product.finishes.length > 0) {
+                    mappedVariants = product.finishes.map((finish, index) => {
+                        let hex = "#1A1A1A";
+                        let image = "/images/black-card.png";
 
-                    if (finish.toLowerCase().includes("gold")) {
-                        hex = "#D4AF37";
-                        image = "/images/gold-card.png";
-                    } else if (finish.toLowerCase().includes("silver")) {
-                        hex = "#C0C0C0";
-                        image = "/images/silver-card.png";
-                    }
+                        if (finish.toLowerCase().includes("gold")) {
+                            hex = "#D4AF37";
+                            image = "/images/gold-card.png";
+                        } else if (finish.toLowerCase().includes("silver")) {
+                            hex = "#C0C0C0";
+                            image = "/images/silver-card.png";
+                        }
 
-                    return {
-                        id: index + 1,
-                        color: finish,
-                        variantName: finish,
-                        hex,
-                        price: product.basePrice,
-                        image,
-                        thumbnails: [image, image, image],
-                    };
-                });
+                        return {
+                            id: index + 1,
+                            color: finish,
+                            variantName: finish,
+                            hex,
+                            price: product.basePrice,
+                            image,
+                            thumbnails: [image, image, image],
+                        };
+                    });
+                } else {
+
+                    mappedVariants = [
+                        {
+                            id: 1,
+                            color: "Default",
+                            variantName: product.name,
+                            hex: "#1A1A1A",
+                            price: product.basePrice,
+                            image: card2,
+                            thumbnails: [card2, card2, card2],
+                        }
+                    ];
+                }
 
                 setCardVariants(mappedVariants);
                 setSelectedVariant(mappedVariants[0]);
@@ -62,6 +79,12 @@ const CardDetails = () => {
         fetchCards();
     }, []);
 
+    useEffect(() => {
+        if (!product) {
+            // fetch by slug from URL
+        }
+    }, []);
+
     const handleVariantChange = (variant) => {
         setSelectedVariant(variant);
         setMainImage(variant.image);
@@ -69,7 +92,14 @@ const CardDetails = () => {
     };
 
     const handleBuyNow = () => {
-        navigate("/checkout", { state: { variant: selectedVariant, quantity } });
+        navigate("/checkout", {
+            state: {
+                variant: selectedVariant,
+                quantity,
+                price: selectedVariant?.price || selectedProduct?.basePrice,
+                cardType: product?.cardType
+            }
+        });
         window.scrollTo({ top: 0, behavior: "auto" });
     };
 
@@ -139,35 +169,39 @@ const CardDetails = () => {
                     </ul>
 
                     <div className="mt-4">
-                        <p className="font-Inter font-semibold text-[16px] leading-[24px] text-[#111111] mb-6">
-                            Select Finish
-                        </p>
-
                         <div className="flex flex-wrap gap-4 sm:gap-5">
-                            {cardVariants.map((variant) => {
-                                const isSelected = selectedVariant.id === variant.id;
+                            {cardVariants.length > 1 && (
+                                <>
+                                    <p className="font-Inter font-semibold text-[16px] leading-[24px] text-[#111111] mb-6">
+                                        Select Finish
+                                    </p>
 
-                                return (
-                                    <div key={variant.id} className="flex flex-col items-center gap-2">
-                                        <div
-                                            className={`p-[6px] rounded-full transition-all duration-200 ${isSelected ? "border border-[#C8A960]" : "border border-transparent"
-                                                }`}
-                                        >
-                                            <button
-                                                onClick={() => handleVariantChange(variant)}
-                                                className="w-[50px] cursor-pointer sm:w-[55px] md:w-[59px] h-[50px] sm:h-[55px] md:h-[59px] rounded-full flex items-center justify-center"
-                                                style={{ backgroundColor: variant.hex }}
-                                            >
-                                                {isSelected && <span className="text-white text-lg font-bold">✓</span>}
-                                            </button>
-                                        </div>
+                                    <div className="flex flex-wrap gap-4 sm:gap-5">
+                                        {cardVariants.map((variant) => {
+                                            const isSelected = selectedVariant.id === variant.id;
 
-                                        <span className="font-['Inter'] font-medium text-[8px] sm:text-[9px] md:text-[9.35px] leading-[11px] sm:leading-[12px] md:leading-[13px] text-[#1A1A1A] text-center">
-                                            {variant.variantName}
-                                        </span>
+                                            return (
+                                                <div key={variant.id} className="flex flex-col items-center gap-2">
+                                                    <div
+                                                        className={`p-[6px] rounded-full ${isSelected ? "border border-[#C8A960]" : ""
+                                                            }`}
+                                                    >
+                                                        <button
+                                                            onClick={() => handleVariantChange(variant)}
+                                                            className="w-[50px] h-[50px] rounded-full"
+                                                            style={{ backgroundColor: variant.hex }}
+                                                        >
+                                                            {isSelected && "✓"}
+                                                        </button>
+                                                    </div>
+
+                                                    <span>{variant.variantName}</span>
+                                                </div>
+                                            );
+                                        })}
                                     </div>
-                                );
-                            })}
+                                </>
+                            )}
                         </div>
                     </div>
 

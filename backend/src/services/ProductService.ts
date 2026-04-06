@@ -15,7 +15,7 @@ export class ProductService {
                 name: 'PVC QR Card',
                 description: 'PVC card with scannable QR code',
                 basePrice: 30000,
-                finishes: []
+                finishes: ['Standard']
             },
             {
                 cardType: 'COMPLETE_PACKAGE',

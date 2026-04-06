@@ -1,20 +1,25 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Footer from "../../components/Footer/Footer";
 
 const Checkout = () => {
     const navigate = useNavigate();
+    const location = useLocation();
     const PAYSTACK_PUBLIC_KEY = import.meta.env.VITE_PAYSTACK_PUBLIC_KEY;
 
-    const priceMap = {
-        "Gold Metal": 18000,
-        "Matte Black Metal": 18000,
-    };
-
-    const location = useLocation();
-    const selectedProduct = location.state?.variant;
+    // Get selected card & quantity from CardDetails
+    const selectedCard = location.state?.variant;
     const quantity = location.state?.quantity || 1;
+    const cardType = location.state?.cardType || "DefaultType";
+    const price = location.state?.price || selectedCard?.price || 50000;
+
+    // Redirect if no card data
+    useEffect(() => {
+        if (!selectedCard) {
+            navigate("/");
+        }
+    }, [selectedCard, navigate]);
 
     const [formData, setFormData] = useState({
         name: "",
@@ -28,12 +33,13 @@ const Checkout = () => {
 
     const [loading, setLoading] = useState(false);
 
+    // Build product summary
     const product = {
-        name: "Metal Smart Card",
-        variant: selectedProduct?.variantName || "Matte Black Metal",
+        name: selectedCard?.variantName || "Metal Smart Card",
+        variant: selectedCard?.variantName || "Default",
         quantity: quantity,
-        price: priceMap[selectedProduct?.variantName] || 18000,
-        cardType: "COMPLETE_PACKAGE",
+        price: price,
+        cardType: cardType,
     };
 
     const handleChange = (e) => {
@@ -42,7 +48,6 @@ const Checkout = () => {
             [e.target.name]: e.target.value,
         });
     };
-
 
     const handleSubmit = async () => {
         if (!formData.name || !formData.email || !formData.phone || !formData.address) {
@@ -53,6 +58,14 @@ const Checkout = () => {
         try {
             setLoading(true);
 
+            // Map variant to enum
+            const cardTypeMapping = {
+                "Smart Card": "SMART_ONLY",
+                "PVC QR Card": "PVC_QR_ONLY",
+                "Complete Package": "COMPLETE_PACKAGE",
+            };
+            const cardType = cardTypeMapping[selectedCard?.variantName] || "SMART_ONLY";
+
             const payload = {
                 customerData: {
                     name: formData.name,
@@ -62,18 +75,19 @@ const Checkout = () => {
                 },
                 items: [
                     {
-                        cardType: product.cardType,
-                        quantity: Number(product.quantity),
-                        colorVariant: product.variant,
+                        cardType: cardType,
+                        quantity: Number(quantity),
+                        colorVariant: selectedCard?.variantName,
                     },
                 ],
-                totalAmount: Number(product.price * product.quantity),
+                totalAmount: Number(price * quantity),
+                paymentGateway: "PAYSTACK",
+                transactionReference: `CRT_${Date.now()}_${Math.floor(Math.random() * 10000)}`,
             };
 
-            const res = await axios.post(
-                "http://localhost:3000/api/v1/orders",
-                payload
-            );
+            console.log("PAYLOAD:", payload);
+
+            const res = await axios.post("http://localhost:3000/api/v1/orders", payload);
 
             const paymentUrl = res.data?.data?.paymentUrl;
 
@@ -82,6 +96,7 @@ const Checkout = () => {
                 return;
             }
 
+            // Redirect to payment gateway
             window.location.href = paymentUrl;
 
         } catch (error) {
@@ -100,7 +115,8 @@ const Checkout = () => {
                 </h2>
             </div>
 
-            <div className="max-w-6xl pb-10 sm:pb-16 md:pb-20 mx-4 md:mx-auto grid grid-cols-1 gap-7 md:grid-cols-2 gap-6 sm:gap-8 md:gap-10">
+            <div className="max-w-6xl pb-10 sm:pb-16 md:pb-20 mx-4 md:mx-auto grid grid-cols-1 md:grid-cols-2 gap-7 sm:gap-8 md:gap-10">
+                {/* Contact Form */}
                 <div>
                     <h2 className="font-Inter font-medium text-[20px] sm:text-[22px] md:text-[24px] leading-[120%] text-[#1A1A1A] mb-4 sm:mb-5 md:mb-6">
                         Contact Information
@@ -116,6 +132,7 @@ const Checkout = () => {
                                     type={field === "email" ? "email" : "text"}
                                     name={field}
                                     placeholder={field === "zip" ? "10001" : `Enter your ${field}`}
+                                    value={formData[field]}
                                     onChange={handleChange}
                                     className="w-full h-[45px] sm:h-[50px] px-3 sm:px-4 rounded-lg bg-gray-100 outline-none"
                                 />
@@ -124,6 +141,7 @@ const Checkout = () => {
                     </div>
                 </div>
 
+                {/* Order Summary */}
                 <div className="bg-white h-auto p-4 sm:p-6 md:p-6 rounded-xl shadow">
                     <h3 className="font-Inter font-semibold text-[14px] sm:text-[15.3px] leading-[28px] text-[#0A0A0A] mb-3 sm:mb-4">
                         Order Summary
@@ -167,6 +185,7 @@ const Checkout = () => {
                     </button>
                 </div>
             </div>
+
             <Footer />
         </section>
     );
