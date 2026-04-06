@@ -12,7 +12,7 @@ const Checkout = () => {
     const selectedCard = location.state?.variant;
     const quantity = location.state?.quantity || 1;
     const cardType = location.state?.cardType || "DefaultType";
-    const price = location.state?.price || selectedCard?.price || 50000;
+    const price = location.state?.price;
 
     // Redirect if no card data
     useEffect(() => {
@@ -60,6 +60,12 @@ const Checkout = () => {
 
             // Map variant to enum
             const cardType = location.state?.cardType;
+            console.log("DEBUG PRICE CHECK:", {
+                cardType,
+                frontendPrice: price,
+                quantity,
+                frontendTotal: price * quantity
+            });
 
             const payload = {
                 customerData: {
