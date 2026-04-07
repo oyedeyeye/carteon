@@ -87,7 +87,7 @@ const Checkout = () => {
 
             console.log("PAYLOAD:", payload);
 
-            const res = await axios.post("https://carteon-iota.vercel.app/api/v1/orders", payload);
+            const res = await axios.post("http://localhost:3000/api/v1/orders", payload);
 
             const paymentUrl = res.data?.data?.paymentUrl;
 

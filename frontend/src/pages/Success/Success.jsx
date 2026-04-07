@@ -14,7 +14,7 @@ const Success = () => {
         const verifyPayment = async () => {
             try {
                 const res = await axios.get(
-                    `https://carteon-iota.vercel.app/api/v1/orders/verify?reference=${reference}`
+                    `http://localhost:3000/api/v1/orders/verify?reference=${reference}`
                 );
                 setOrder(res.data.data);
             } catch (err) {
