@@ -10,20 +10,69 @@ const Success = () => {
     const navigate = useNavigate();
     const [order, setOrder] = useState(null);
 
+    const [status, setStatus] = useState("loading");
+
     useEffect(() => {
-        const verifyPayment = async () => {
+        const verifyPayment = async (attempts = 0) => {
             try {
+                if (attempts > 5) {
+                    setStatus("error");
+                    return;
+                }
                 const res = await axios.get(
                     `https://carteon-iota.vercel.app/api/v1/orders/verify?reference=${reference}`
                 );
-                setOrder(res.data.data);
+                
+                const fetchedOrder = res.data.data;
+                setOrder(fetchedOrder);
+
+                if (fetchedOrder.paymentStatus === "SUCCESS") {
+                    setStatus("success");
+                } else if (fetchedOrder.paymentStatus === "PENDING") {
+                    // Poll again after 2 seconds
+                    setTimeout(() => verifyPayment(attempts + 1), 2000);
+                } else {
+                    setStatus("error");
+                }
             } catch (err) {
                 console.error(err);
+                setStatus("error");
             }
         };
 
-        if (reference) verifyPayment();
+        if (reference) {
+            verifyPayment();
+        } else {
+            setStatus("error");
+        }
     }, [reference]);
+
+    if (status === "loading") {
+        return (
+            <section className="flex flex-col items-center justify-center min-h-screen text-center px-4">
+                <h1 className="font-Inter font-semibold text-[24px]">Verifying your payment...</h1>
+                <p className="mt-2 text-[#64748B]">Please wait while we confirm your transaction.</p>
+                <div className="mt-6 animate-spin rounded-full h-10 w-10 border-b-2 border-gray-900 mx-auto"></div>
+            </section>
+        );
+    }
+
+    if (status === "error") {
+        return (
+            <section className="flex flex-col items-center justify-center min-h-screen text-center px-4">
+                <h1 className="font-Inter font-semibold text-[24px] text-red-600">Payment Verification Failed</h1>
+                <p className="mt-2 text-[#64748B] max-w-md">
+                    We could not verify your payment at this time, or the transaction was cancelled. If you have been debited, please contact support.
+                </p>
+                <button
+                    onClick={() => navigate("/")}
+                    className="mt-6 px-6 py-3 bg-[#0F1419] text-white rounded-md font-Inter font-medium"
+                >
+                    Return Home
+                </button>
+            </section>
+        );
+    }
 
     return (
         <section>
