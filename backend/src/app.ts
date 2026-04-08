@@ -35,6 +35,10 @@ app.get('/health', (req, res) => {
     res.status(200).json({ status: 'ok' });
 });
 
+app.get('/', (req, res) => {
+    res.status(200).json({ message: 'Welcome to Carteon Cards and Professional Profile Services' });
+});
+
 import { ErrorRequestHandler, NextFunction, Request, Response } from 'express';
 
 const globalErrorHandler: ErrorRequestHandler = (err: any, req: Request, res: Response, next: NextFunction) => {
