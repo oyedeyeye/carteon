@@ -75,4 +75,41 @@ export class OrderService {
         // Returns null if the order doesn't exist, OR if it was already updated to SUCCESS by a concurrent request.
         return null;
     }
+
+    async verifyExternalPayment(reference: string) {
+        // First check locally to see if webhook already processed it
+        const order = await Order.findOne({ transactionReference: reference });
+        if (!order) return null;
+
+        if (order.paymentStatus === 'SUCCESS') {
+            return order;
+        }
+
+        // If local DB says PENDING, check with Paystack directly
+        if (order.paymentStatus === 'PENDING') {
+            try {
+                const paystackData = await this.paymentService.verifyTransaction(reference);
+                
+                if (paystackData.status === 'success') {
+                    // It was successful on Paystack, update DB
+                    const updatedOrder = await this.handleSuccessfulPayment(reference);
+                    return updatedOrder || await Order.findOne({ transactionReference: reference });
+                } else if (paystackData.status === 'failed') {
+                    // Update to failed if you track that, else just return
+                    order.paymentStatus = 'FAILED';
+                    await order.save();
+                    return order;
+                }
+                
+                // Return unchanged order if it's still processing/abandoned/etc
+                return order;
+            } catch (error) {
+                console.error(`External verification failed for ${reference}:`, error);
+                // Return the local pending order if Paystack verification fails
+                return order;
+            }
+        }
+
+        return order;
+    }
 }
