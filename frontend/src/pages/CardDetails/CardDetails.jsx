@@ -18,7 +18,7 @@ const CardDetails = () => {
     useEffect(() => {
         const fetchCards = async () => {
             try {
-                const res = await axios.get("http://localhost:3000/api/v1/products/cards");;
+                const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/v1/products/cards`);
 
                 console.log("API RESPONSE:", res.data);
 
