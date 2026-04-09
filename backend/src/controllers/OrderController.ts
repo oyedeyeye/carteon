@@ -39,12 +39,12 @@ export class OrderController {
                 });
             }
 
-            const order = await orderService.handleSuccessfulPayment(reference as string);
+            const order = await orderService.verifyExternalPayment(reference as string);
 
             if (!order) {
                 return res.status(404).json({
                     status: 'error',
-                    message: 'Order not found or already processed',
+                    message: 'Order not found',
                 });
             }
 

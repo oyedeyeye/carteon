@@ -47,6 +47,34 @@ export class PaymentService {
         }
     }
 
+    async verifyTransaction(reference: string): Promise<any> {
+        const secretKey = process.env.PAYSTACK_SECRET_KEY;
+        if (!secretKey) {
+            throw new Error('Paystack secret key is not configured');
+        }
+
+        try {
+            const response = await fetch(`https://api.paystack.co/transaction/verify/${reference}`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${secretKey}`
+                }
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json().catch(() => ({}));
+                console.error(`Error verifying payment ${reference} with Paystack`, errorData);
+                throw new Error('Failed to verify payment with Paystack');
+            }
+
+            const responseData = await response.json();
+            return responseData.data;
+        } catch (error: any) {
+            console.error(`Error verifying payment ${reference}`, error.message);
+            throw new Error('Failed to verify payment');
+        }
+    }
+
     verifyWebhookSignature(signature: string, rawBody: Buffer | string): boolean {
         const secret = process.env.PAYMENT_WEBHOOK_SECRET || '';
         if (!secret || !signature || !rawBody) return false;
